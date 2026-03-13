@@ -1,6 +1,7 @@
 const MM_TO_PX = 96 / 25.4;
 const CART_STORAGE_KEY = "stampSimulatorCart";
 const CALIBRATION_STORAGE_KEY = "stampCalibrationFactor";
+const SHARE_PAGE_URL = "https://mbsbooksandstationerycatalogue-lab.github.io/catalogue/stampcustom.html";
 
 const state = {
   products: [],
@@ -25,6 +26,7 @@ const elements = {
   heroStats: document.querySelector("#heroStats"),
   heroProductImage: document.querySelector("#heroProductImage"),
   viewCartButton: document.querySelector("#viewCartButton"),
+  shareAppButton: document.querySelector("#shareAppButton"),
   headerBackToShopButton: document.querySelector("#headerBackToShopButton"),
   viewCartCount: document.querySelector("#viewCartCount"),
   workspace: document.querySelector("#workspace"),
@@ -188,6 +190,7 @@ function bindEvents() {
 
   elements.clearCartButton.addEventListener("click", clearCart);
   elements.viewCartButton.addEventListener("click", openOrderSection);
+  elements.shareAppButton?.addEventListener("click", shareAppToWhatsApp);
   elements.headerBackToShopButton?.addEventListener("click", openShopSection);
   elements.backToShopButton.addEventListener("click", openShopSection);
 
@@ -736,14 +739,14 @@ function sendOrder() {
   const customerPhone = elements.customerPhoneInput.value.trim();
 
   if (!customerName || !customerAddress || !customerPhone) {
-    const message = "Please fill in customer name, address, and phone number before sending the order.";
+    const message = "Please fill in customer name, address, and phone number before downloading the order.";
     elements.orderStatus.textContent = message;
     window.alert(message);
     return;
   }
 
   if (!state.cart.length) {
-    const message = "Cart is empty. Add at least one stamp or accessory before sending the order.";
+    const message = "Cart is empty. Add at least one stamp or accessory before downloading the order.";
     elements.orderStatus.textContent = message;
     window.alert(message);
     return;
@@ -797,10 +800,17 @@ function renderScreen() {
   elements.workspace.classList.toggle("hidden", showOrder);
   elements.orderSection.classList.toggle("hidden", !showOrder);
   elements.viewCartButton.classList.toggle("hidden", showOrder);
+  elements.shareAppButton?.classList.toggle("hidden", showOrder);
   elements.headerBackToShopButton?.classList.toggle("hidden", !showOrder);
   if (showOrder) {
     elements.orderSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+}
+
+function shareAppToWhatsApp() {
+  const shareText = `Try our Stamp Size Simulator: ${SHARE_PAGE_URL}`;
+  const shareUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+  window.open(shareUrl, "_blank", "noopener,noreferrer");
 }
 
 function updateFilterVisibility() {
