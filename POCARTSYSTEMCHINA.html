@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHINA PO SYSTEM</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <style>
+    :root{--bg:#f6efe7;--card:#fffdfb;--text:#3b2f2f;--muted:#7a5c47;--primary:#9a6b4a;--secondary:#d8b08c;--border:rgba(91,62,43,.12)}
+    body{background:linear-gradient(180deg,#fcf8f3 0%,#efe2d3 100%);padding:16px;font-family:"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text)}
+    .app-shell{max-width:min(96vw,1680px);margin:0 auto}.app-topbar,.side,.main,.modal-content,.photo-crop-card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+    .app-topbar{padding:14px 16px}.brand-title{margin:0;font-size:24px;font-weight:800}.brand-sub,.small-muted{color:var(--muted);font-size:13px}.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+    .app-grid{display:block;margin-top:14px}.side{padding:10px;height:fit-content;margin-bottom:14px;background:#efe1d1;border-color:rgba(154,107,74,.18)}.side .nav{display:flex;gap:10px;flex-wrap:wrap}.side .nav-link{flex:1 1 180px;text-align:center;border-radius:12px;color:#6f4e37;font-weight:700;background:#e8d3bf}.side .nav-link.active{background:linear-gradient(180deg,#c69c72 0%,#9a6b4a 100%);color:#fff}
+    .main{padding:18px}.section-title{margin:0;font-size:18px;font-weight:800}.section-desc{margin-top:6px;color:var(--muted);font-size:13px}.surface{border:1px solid var(--border);border-radius:14px;padding:14px;background:#fbfdff}.toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:#fff}
+    .catalogue-list{display:grid;gap:12px}.catalogue-card{display:grid;grid-template-columns:120px 1fr;align-items:stretch;border:1px solid #d8dee6;border-radius:16px;overflow:hidden;background:#f2f4f7;box-shadow:0 8px 16px rgba(15,23,42,.04)}.catalogue-photo{height:100%;min-height:120px;background:#e9eef3;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;border-right:1px solid #d8dee6}.catalogue-photo img{width:100%;height:100%;object-fit:cover}.catalogue-photo .placeholder{font-weight:700;color:var(--muted)}.catalogue-body{padding:14px;display:flex;flex-direction:column;justify-content:center;background:#f6f7f9}.catalogue-head{min-width:0;flex:1 1 auto}.catalogue-item-name,.catalogue-line .line-title{display:block;white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.35}.catalogue-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--muted);padding-top:10px;border-top:1px solid #dde3ea}.catalogue-line-list{border:1px solid #d8dee6;border-radius:14px;overflow:hidden;background:#f3f5f7}.catalogue-line{display:grid;grid-template-columns:1.3fr 1fr 1fr .7fr .7fr auto;gap:0;align-items:stretch;padding:0;border-top:1px solid #d8dee6;background:#f6f7f9}.catalogue-line:first-child{border-top:0}.catalogue-line-head{background:#e8edf3;font-size:12px;font-weight:700;color:var(--muted)}.catalogue-line .line-cell{min-width:0;padding:12px 14px;border-left:1px solid #d8dee6;display:flex;align-items:center}.catalogue-line .line-cell:first-child{border-left:0}.catalogue-line .line-sub{color:var(--muted);font-size:12px}
+    .iframe-preview{width:100%;height:min(75vh,720px);border:0;border-radius:12px;background:#f8fafc}
+    .mono{font-family:Consolas,"Courier New",monospace}.preview-wrap{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.preview-tile{position:relative;width:160px;height:160px;border-radius:12px;border:1px solid var(--border);overflow:hidden;background:#f8fafc}.preview-tile img{width:100%;height:100%;object-fit:cover}.preview-tile button{position:absolute;top:8px;right:8px}
+    .crop-stage{max-width:min(92vw,540px);margin:0 auto}.crop-canvas-wrap{width:100%;display:flex;justify-content:center;padding:12px;background:#f8fafc;border:1px dashed var(--border);border-radius:12px}.crop-canvas-wrap canvas{max-width:100%;border-radius:8px}
+    .cart-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.kpi-item{border:1px solid var(--border);border-radius:14px;padding:12px;background:linear-gradient(180deg,#fff 0%,#f8fbfe 100%)}.kpi-label{color:var(--muted);font-size:12px;margin-bottom:4px}.kpi-value{font-size:22px;font-weight:800}
+    .status-badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}.status-Draft{background:#e0f2fe;color:#075985}.status-Pending{background:#fef3c7;color:#92400e}.status-Confirmed{background:#dcfce7;color:#166534}
+    .master-grid{display:grid;gap:10px}
+    .master-row{display:grid;grid-template-columns:1.2fr 1fr 1.2fr .8fr .7fr .7fr .8fr 1fr auto;gap:8px;align-items:end;padding:10px;border:1px solid var(--border);border-radius:12px;background:#fff}
+    .master-row .form-group{margin-bottom:0}
+    .master-head{display:grid;grid-template-columns:1.2fr 1fr 1.2fr .8fr .7fr .7fr .8fr 1fr auto;gap:8px;padding:0 10px;color:var(--muted);font-size:12px;font-weight:700}
+    .loading{display:none;position:fixed;inset:0;z-index:99999;background:rgba(239,226,211,.94);backdrop-filter:blur(2px);align-items:center;justify-content:center}
+    .loading-panel{min-width:min(88vw,320px);padding:28px 24px;border-radius:18px;border:1px solid rgba(154,107,74,.16);background:#f2e6d8;box-shadow:0 18px 40px rgba(91,62,43,.14);text-align:center}
+    .loading-title{font-size:22px;font-weight:800;color:#7a5230;letter-spacing:.02em}
+    .loading-sub{margin-top:8px;color:#6f4e37;font-size:13px}
+    @media (max-width:768px){body{padding:10px}.app-topbar,.main,.side{border-radius:12px}.main{padding:12px}.toolbar{grid-template-columns:1fr}.preview-tile{width:120px;height:120px}.catalogue-card{grid-template-columns:96px 1fr}.catalogue-photo{height:96px;min-height:96px}.catalogue-line,.catalogue-line-head{grid-template-columns:1fr}.master-head{display:none}.master-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-topbar">
+    <div class="d-flex align-items-center justify-content-between flex-wrap" style="gap:12px;">
+      <div>
+        <p class="brand-title mb-0" id="companyName">CHINA PO SYSTEM</p>
+        <div class="brand-sub">HTML + Google Apps Script + Google Drive + Google Sheets</div>
+      </div>
+      <div class="d-flex align-items-center flex-wrap" style="gap:8px;">
+        <div class="pill">Status <span id="globalStatus">Loading...</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="app-grid">
+    <div class="side">
+      <nav class="nav">
+        <a class="nav-link active" href="javascript:void(0)" data-tab="tab-item-master" onclick="showTab('tab-item-master')">Item Master</a>
+        <a class="nav-link" href="javascript:void(0)" data-tab="tab-catalogue" onclick="showTab('tab-catalogue')">Catalogue</a>
+        <a class="nav-link" href="javascript:void(0)" data-tab="tab-cart" onclick="showTab('tab-cart')">Cart / Waiting Zone</a>
+        <a class="nav-link" href="javascript:void(0)" data-tab="tab-checking" onclick="showTab('tab-checking')">PO Ready</a>
+        <a class="nav-link" href="javascript:void(0)" data-tab="tab-dashboard" onclick="showTab('tab-dashboard')">Dashboard</a>
+      </nav>
+    </div>
+    <div class="main">
+      <div id="tab-item-master" class="tab-page">
+        <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+          <div>
+            <h2 class="section-title">Item Master</h2>
+            <div class="section-desc">Add or edit up to 10 items in one save, including vendor and optional photo.</div>
+          </div>
+          <div class="d-flex flex-wrap" style="gap:8px;">
+            <button class="btn btn-outline-secondary" type="button" onclick="addItemMasterRow()">Add Row</button>
+            <button class="btn btn-outline-secondary" type="button" onclick="resetCatalogueForm()">Reset</button>
+          </div>
+        </div>
+        <hr>
+        <form id="catalogueForm" onsubmit="return false;">
+          <div class="surface">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3" style="gap:8px;">
+              <div class="small-muted">Fill only the rows you need. Maximum 10 items per save.</div>
+              <div class="pill" id="itemMasterCountLabel">Rows 1 / 10</div>
+            </div>
+            <div class="master-head">
+              <div>Vendor</div>
+              <div>Barcode</div>
+              <div>Item Name</div>
+              <div>Price</div>
+              <div>UOM</div>
+              <div>Qty</div>
+              <div>Active</div>
+              <div>Photo</div>
+              <div>Action</div>
+            </div>
+            <div id="itemMasterRows" class="master-grid"></div>
+            <div class="mt-3 d-flex flex-wrap" style="gap:8px;">
+              <button type="button" class="btn btn-primary" onclick="saveCatalogueItemsBatch()">Save Up To 10 Items</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="tab-catalogue" class="tab-page" style="display:none;">
+        <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+          <div>
+            <h2 class="section-title">Catalogue</h2>
+            <div class="section-desc">Browse saved items and add them into the PO cart without mixing with master maintenance.</div>
+          </div>
+          <div class="d-flex flex-wrap" style="gap:8px;">
+            <button class="btn btn-outline-secondary" type="button" onclick="refreshCatalogueFromRemote()">Refresh Catalogue</button>
+            <button class="btn btn-primary" type="button" onclick="openNewItemMaster()">Add New Item</button>
+          </div>
+        </div>
+        <hr>
+        <div class="surface">
+          <div class="toolbar">
+            <div><label>Search Catalogue</label><input type="text" id="catalogueSearch" class="form-control" placeholder="Barcode / item name" oninput="resetCataloguePagination()"></div>
+            <div><label>Vendor Filter</label><select id="catalogueVendorFilter" class="form-control" onchange="resetCataloguePagination()"><option value="">All Vendors</option></select></div>
+            <div><label>Show Per Page</label><select id="cataloguePageSize" class="form-control" onchange="updateCataloguePageSize(this.value)"><option value="20">20</option><option value="50">50</option></select></div>
+          </div>
+          <div class="mt-3 d-flex flex-wrap" style="gap:8px;">
+            <button type="button" class="btn btn-sm btn-secondary" id="catalogueCardViewBtn" onclick="setCatalogueViewMode('card')">Card View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="catalogueListViewBtn" onclick="setCatalogueViewMode('list')">List View</button>
+          </div>
+          <div class="surface mt-3">
+            <div class="d-flex flex-wrap" style="gap:8px;">
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sortCatalogueBy('itemName')">Item <span id="catalogueSort_itemName">↕</span></button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sortCatalogueBy('barcode')">Barcode <span id="catalogueSort_barcode">↕</span></button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sortCatalogueBy('vendor')">Vendor <span id="catalogueSort_vendor">↕</span></button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sortCatalogueBy('price')">Price <span id="catalogueSort_price">↕</span></button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sortCatalogueBy('uom')">UOM <span id="catalogueSort_uom">↕</span></button>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between flex-wrap mt-3" style="gap:8px;">
+            <div class="small-muted" id="cataloguePageLabel">Page 1 / 1</div>
+            <div class="small-muted" id="catalogueCountLabel">Showing 0 of 0</div>
+          </div>
+          <div id="catalogueList" class="catalogue-list mt-3"></div>
+          <div class="mt-3 d-flex justify-content-between flex-wrap" style="gap:8px;">
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeCataloguePage(-1)">← Prev</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeCataloguePage(1)">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-cart" class="tab-page" style="display:none;">
+        <div id="cartListSection">
+          <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+            <div><h2 class="section-title">Cart / Waiting Zone</h2><div class="section-desc">Showing all pending cart documents. Click edit to open the document in a separate action panel.</div></div>
+            <div class="d-flex flex-wrap" style="gap:8px;">
+              <button type="button" class="btn btn-outline-secondary" onclick="refreshCartFromFirebase()">Refresh Cart</button>
+            </div>
+          </div>
+          <hr>
+          <div class="table-wrap mt-3">
+            <table class="table table-sm mb-0">
+              <thead class="thead-light"><tr><th>Temp Cart No.</th><th>Vendor</th><th class="text-right">Items</th><th class="text-right">Qty</th><th class="text-right">Amount</th><th class="text-right">Action</th></tr></thead>
+              <tbody id="cartGroupTbody"><tr><td colspan="6" class="text-center small-muted p-3">No temporary carts yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="cartEditSection" style="display:none;">
+          <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+            <div>
+              <h2 class="section-title">Edit Cart Action Panel</h2>
+              <div class="section-desc">Edit the selected temporary cart, then save, approve, or close the panel to return to the waiting zone list.</div>
+            </div>
+            <div class="d-flex align-items-center flex-wrap" style="gap:8px;">
+              <div class="pill mono" id="poDraftLabel">No Active Cart</div>
+              <button type="button" class="btn btn-outline-secondary" onclick="closeCartEditor()">Back To Cart List</button>
+            </div>
+          </div>
+          <hr>
+          <div class="surface">
+            <div class="cart-summary">
+              <div class="kpi-item"><div class="kpi-label">Document No.</div><div class="kpi-value mono" id="cartEditDocLabel">-</div></div>
+              <div class="kpi-item"><div class="kpi-label">Vendor</div><div class="kpi-value" id="cartEditVendorLabel">-</div></div>
+              <div class="kpi-item"><div class="kpi-label">Cart Amount</div><div class="kpi-value" id="cartEditAmountLabel">0.00</div></div>
+            </div>
+          </div>
+          <div class="table-wrap mt-3">
+                <table class="table table-sm mb-0">
+                  <thead class="thead-light"><tr><th>Photo</th><th>Barcode</th><th>Item</th><th class="text-right">Price</th><th>UOM</th><th class="text-right">Check Stock</th><th class="text-right">Order Qty</th><th>Remark</th><th class="text-right">Amount</th><th class="text-right">Action</th></tr></thead>
+                  <tbody id="cartTbody"><tr><td colspan="10" class="text-center small-muted p-3">Cart is empty.</td></tr></tbody>
+                </table>
+          </div>
+          <div class="surface mt-3">
+            <label for="poNotes"><b>Remark</b></label>
+            <textarea id="poNotes" class="form-control" rows="3" placeholder="Add remark for this cart..." oninput="updateCartRemark(this.value)"></textarea>
+          </div>
+          <div class="mt-3 d-flex flex-wrap" style="gap:8px;">
+            <button type="button" class="btn btn-primary" id="saveCartBtn" onclick="saveCurrentCart()">Save Cart</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="refreshCartFromFirebase()">Refresh Cart</button>
+            <button type="button" class="btn btn-success" id="approveCartBtn" onclick="approveCartFromWaitingZone()">Approve</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="resetCart()">Delete Temporary Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-checking" class="tab-page" style="display:none;">
+        <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+        <div><h2 class="section-title">PO Ready</h2><div class="section-desc">Approved cart list. Generate CSV when the document is ready to complete.</div></div>
+          <div class="d-flex flex-wrap" style="gap:8px;"><button type="button" class="btn btn-outline-secondary" onclick="refreshPendingList()">Refresh</button></div>
+        </div>
+        <div class="table-wrap mt-3">
+          <table class="table table-sm mb-0">
+            <thead class="thead-light"><tr><th>PO Number</th><th>Vendor</th><th>Date</th><th>Status</th><th class="text-right">Qty</th><th class="text-right">Total</th><th>CSV</th><th class="text-right">Action</th></tr></thead>
+            <tbody id="readyPoTbody"><tr><td colspan="8" class="text-center small-muted p-3">No approved PO ready yet.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tab-dashboard" class="tab-page" style="display:none;">
+        <div class="d-flex align-items-start justify-content-between flex-wrap" style="gap:12px;">
+          <div><h2 class="section-title">Dashboard</h2><div class="section-desc">View PO status, reopen documents, and overwrite saved data when editing.</div></div>
+          <button class="btn btn-outline-secondary" type="button" onclick="refreshDashboard()">Refresh</button>
+        </div>
+        <div class="surface mt-3">
+          <div class="toolbar">
+            <div><label>Search</label><input type="text" id="dashboardSearch" class="form-control" placeholder="Doc no / vendor" oninput="resetDashboardPageAndRender()"></div>
+            <div><label>Date From</label><input type="date" id="dashboardDateFrom" class="form-control" onchange="resetDashboardPageAndRender()"></div>
+            <div><label>Date To</label><input type="date" id="dashboardDateTo" class="form-control" onchange="resetDashboardPageAndRender()"></div>
+          </div>
+        </div>
+        <div class="surface mt-3">
+          <div class="d-flex justify-content-between flex-wrap" style="gap:10px;">
+            <div><b>Total Document Amount:</b> <span id="dashboardTotalAmount">0.00</span></div>
+            <div><b>Page:</b> <span id="dashboardPageLabel">1 / 1</span></div>
+          </div>
+        </div>
+        <div class="table-wrap mt-3">
+          <table class="table table-sm mb-0">
+            <thead class="thead-light"><tr><th onclick="sortDashboardBy('timestamp')" style="cursor:pointer;">Timestamp <span id="sort_timestamp">↕</span></th><th onclick="sortDashboardBy('docNumber')" style="cursor:pointer;">Doc Number <span id="sort_docNumber">↕</span></th><th onclick="sortDashboardBy('vendorName')" style="cursor:pointer;">Vendor Name <span id="sort_vendorName">↕</span></th><th class="text-right" onclick="sortDashboardBy('documentValue')" style="cursor:pointer;">Document Value <span id="sort_documentValue">↕</span></th><th>URL Link</th></tr></thead>
+            <tbody id="dashboardTbody"><tr><td colspan="5" class="text-center small-muted p-3">Loading dashboard...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="mt-3 d-flex justify-content-between flex-wrap" style="gap:8px;">
+          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeDashboardPage(-1)">← Prev</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeDashboardPage(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="loading" class="loading">
+  <div class="loading-panel">
+    <div class="spinner-border text-primary"></div>
+    <div class="loading-title">Data Loading</div>
+    <div class="loading-sub" id="loadingText">Please wait while data is loading.</div>
+  </div>
+</div>
+
+<div class="modal fade" id="cataloguePhotoModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cataloguePhotoModalTitle">Photo Preview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <iframe id="cataloguePhotoFrame" class="iframe-preview" src="about:blank" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore, collection, collectionGroup, doc, setDoc, deleteDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAeC3ho9NYPRO8cigACTC-QiWcLlfDVuqE",
+    authDomain: "catalogchina-d082a.firebaseapp.com",
+    projectId: "catalogchina-d082a",
+    storageBucket: "catalogchina-d082a.firebasestorage.app",
+    messagingSenderId: "23536472084",
+    appId: "1:23536472084:web:16780e7fb2f6a72ea81701"
+  };
+
+  window.firebaseCartReadyPromise = (async function() {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.firebaseCartBridge = {
+      db: db,
+      collection: collection,
+      collectionGroup: collectionGroup,
+      doc: doc,
+      setDoc: setDoc,
+      deleteDoc: deleteDoc,
+      onSnapshot: onSnapshot,
+      serverTimestamp: serverTimestamp,
+      query: query,
+      orderBy: orderBy
+    };
+    return window.firebaseCartBridge;
+  })().catch(function(error) {
+    console.error('Firebase init failed.', error);
+    return null;
+  });
+</script>
+
+<script>
+const STORAGE_KEYS = { settings: 'china_po_settings_v1', catalogue: 'china_po_catalogue_v1', poHeaders: 'china_po_headers_v1', tempCarts: 'china_po_temp_carts_v1', activeTempCartNumber: 'china_po_active_temp_cart_v1', currentPo: 'china_po_current_po_v1', completedDocuments: 'china_po_completed_docs_v1' };
+const DEFAULT_SETTINGS = { companyName: 'CHINA PO SYSTEM', whatsappLink: 'https://wa.me/', whatsappTemplate: 'New order to {vendor} - {csvUrl}', scriptUrl: 'https://script.google.com/macros/s/AKfycbzDciZ8oHiwEZuSpGAPeFIF0JdcPl1Fq7kqeY5UtEUHaxu__wx2yL59BsVntlq-Wmez/exec', poFolderId: '1uO-botT3fpBqWSh5AYfI9vKUB2-VSkHB', cataloguePhotoFolderId: '19EPNSdokTrz6qybvlQyw-HdtX7E1ZcuD' };
+const DASHBOARD_PAGE_SIZE = 20;
+const APPROVE_PASSWORD = 'albert123';
+const state = { settings: { ...DEFAULT_SETTINGS }, catalogue: [], poHeaders: [], completedDocuments: [], tempCarts: [], activeTempCartNumber: '', itemMasterRows: [], currentPoHeader: null, currentPoItems: [], cataloguePage: 1, cataloguePageSize: 20, catalogueViewMode: 'card', catalogueSortKey: 'itemName', catalogueSortDir: 'asc', dashboardPage: 1, dashboardSortKey: 'timestamp', dashboardSortDir: 'desc', firebaseReady: false, firebaseUnsubscribe: null, suppressFirebaseWrites: false, cartDirty: false, cartEditorOpen: false, generatingPoNumber: '' };
+
+function setStatus(text) { document.getElementById('globalStatus').textContent = text; }
+function showLoading(show, text) {
+  const el = document.getElementById('loading');
+  const textEl = document.getElementById('loadingText');
+  if (!el) return;
+  el.style.display = show ? 'flex' : 'none';
+  if (textEl) textEl.textContent = text || 'Please wait while data is loading.';
+}
+function showTab(id) {
+  document.querySelectorAll('.tab-page').forEach(function(page) { page.style.display = page.id === id ? '' : 'none'; });
+  document.querySelectorAll('.side .nav-link').forEach(function(link) { link.classList.toggle('active', link.getAttribute('data-tab') === id); });
+  if (id === 'tab-catalogue') {
+    refreshCatalogueFromRemote().catch(function(error) {
+      console.error('Unable to refresh catalogue on tab switch.', error);
+    });
+  }
+  if (id === 'tab-dashboard') {
+    refreshDashboard().catch(function(error) {
+      console.error('Unable to refresh dashboard on tab switch.', error);
+    });
+  }
+}
+function readStorage(key, fallback) { try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (error) { return fallback; } }
+function writeStorage(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+function hydrateLocalCache() { state.settings = readStorage(STORAGE_KEYS.settings, DEFAULT_SETTINGS); state.catalogue = readStorage(STORAGE_KEYS.catalogue, []); state.poHeaders = readStorage(STORAGE_KEYS.poHeaders, []); state.completedDocuments = readStorage(STORAGE_KEYS.completedDocuments, []); state.tempCarts = readStorage(STORAGE_KEYS.tempCarts, []); state.activeTempCartNumber = readStorage(STORAGE_KEYS.activeTempCartNumber, ''); state.currentPoHeader = readStorage(STORAGE_KEYS.currentPo, null); }
+function persistState() { writeStorage(STORAGE_KEYS.settings, state.settings); writeStorage(STORAGE_KEYS.catalogue, state.catalogue); writeStorage(STORAGE_KEYS.poHeaders, state.poHeaders); writeStorage(STORAGE_KEYS.completedDocuments, state.completedDocuments); writeStorage(STORAGE_KEYS.tempCarts, state.tempCarts); writeStorage(STORAGE_KEYS.activeTempCartNumber, state.activeTempCartNumber); writeStorage(STORAGE_KEYS.currentPo, state.currentPoHeader); }
+function applySettings() { document.getElementById('companyName').textContent = state.settings.companyName || DEFAULT_SETTINGS.companyName; }
+function getFirebaseBridge() { return window.firebaseCartBridge || null; }
+async function waitForFirebaseBridge() {
+  if (window.firebaseCartBridge) return window.firebaseCartBridge;
+  if (window.firebaseCartReadyPromise) return await window.firebaseCartReadyPromise;
+  return null;
+}
+function toFirebaseVendorKey(vendorName) {
+  return String(vendorName || '').trim().toUpperCase().replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'UNKNOWN_VENDOR';
+}
+function normalizeFirebaseCart(payload) {
+  const cart = payload || {};
+  const items = Array.isArray(cart.items) ? cart.items : [];
+  return {
+    tempCartNumber: String(cart.tempCartNumber || ''),
+    vendor: String(cart.vendor || ''),
+    vendorKey: String(cart.vendorKey || toFirebaseVendorKey(cart.vendor || '')),
+    status: String(cart.status || 'PENDING'),
+    poNumber: String(cart.poNumber || ''),
+    notes: String(cart.notes || ''),
+    createdAt: String(cart.createdAt || new Date().toISOString()),
+    items: items.map(function(item) {
+      return {
+        itemId: String(item.itemId || ''),
+        vendor: String(item.vendor || cart.vendor || ''),
+        barcode: String(item.barcode || ''),
+        itemName: String(item.itemName || ''),
+        price: Number(item.price || 0),
+        uom: String(item.uom || ''),
+        orderQty: Math.max(1, Number(item.orderQty || 1) || 1),
+        checkedQty: Number(item.checkedQty != null ? item.checkedQty : item.orderQty || 1),
+        confirmedQty: Number(item.confirmedQty || 0),
+        stockNote: String(item.stockNote || ''),
+        photoFileId: String(item.photoFileId || ''),
+        photoUrl: String(item.photoUrl || '')
+      };
+    })
+  };
+}
+function getWaitingTempCarts() {
+  return state.tempCarts.filter(function(cart) { return String(cart.status || 'PENDING').toUpperCase() === 'PENDING'; });
+}
+function getApprovedTempCarts() {
+  return state.tempCarts.filter(function(cart) { return String(cart.status || '').toUpperCase() === 'APPROVED'; });
+}
+function getCompletedTempCarts() {
+  return state.tempCarts.filter(function(cart) { return String(cart.status || '').toUpperCase() === 'COMPLETE'; });
+}
+async function startFirebaseCartSync() {
+  const bridge = await waitForFirebaseBridge();
+  if (state.firebaseUnsubscribe) {
+    state.firebaseUnsubscribe();
+    state.firebaseUnsubscribe = null;
+  }
+  if (!bridge) {
+    state.firebaseReady = false;
+    renderCart();
+    return;
+  }
+  const cartsRef = bridge.collectionGroup(bridge.db, 'carts');
+  state.firebaseUnsubscribe = bridge.onSnapshot(bridge.query(cartsRef, bridge.orderBy('createdAt', 'asc')), function(snapshot) {
+    const remoteCarts = snapshot.docs.map(function(row) {
+      return normalizeFirebaseCart(row.data());
+    });
+    state.suppressFirebaseWrites = true;
+    state.tempCarts = remoteCarts;
+    if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) state.activeTempCartNumber = state.tempCarts[0] ? state.tempCarts[0].tempCartNumber : '';
+    persistState();
+    renderCart();
+    state.suppressFirebaseWrites = false;
+    state.firebaseReady = true;
+  }, function(error) {
+    console.error('Firebase cart sync failed.', error);
+    state.firebaseReady = false;
+  });
+}
+async function reloadFirebaseCartSnapshotOnce() {
+  const bridge = getFirebaseBridge() || await waitForFirebaseBridge();
+  if (!bridge) return;
+  const cartsRef = bridge.collectionGroup(bridge.db, 'carts');
+  await new Promise(function(resolve, reject) {
+    let unsubscribe = null;
+    unsubscribe = bridge.onSnapshot(
+      bridge.query(cartsRef, bridge.orderBy('createdAt', 'asc')),
+      function(snapshot) {
+        const remoteCarts = snapshot.docs.map(function(row) {
+          return normalizeFirebaseCart(row.data());
+        });
+        state.suppressFirebaseWrites = true;
+        state.tempCarts = remoteCarts;
+        if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) {
+          state.activeTempCartNumber = state.tempCarts[0] ? state.tempCarts[0].tempCartNumber : '';
+        }
+        persistState();
+        renderCart();
+        state.suppressFirebaseWrites = false;
+        if (unsubscribe) unsubscribe();
+        resolve();
+      },
+      function(error) {
+        if (unsubscribe) unsubscribe();
+        reject(error);
+      }
+    );
+  });
+}
+async function syncTempCartToFirebase(cart) {
+  if (state.suppressFirebaseWrites) return;
+  const bridge = getFirebaseBridge() || await waitForFirebaseBridge();
+  if (!bridge || !cart || !cart.tempCartNumber) return;
+  const payload = normalizeFirebaseCart(cart);
+  payload.updatedAt = bridge.serverTimestamp();
+  await bridge.setDoc(bridge.doc(bridge.db, 'vendors', payload.vendorKey, 'carts', payload.tempCartNumber), payload, { merge: true });
+}
+async function deleteTempCartFromFirebase(tempCartNumber, vendorOverride) {
+  const bridge = getFirebaseBridge() || await waitForFirebaseBridge();
+  if (!bridge || !tempCartNumber) return;
+  const cart = state.tempCarts.find(function(row) { return row.tempCartNumber === tempCartNumber; }) || null;
+  const vendorKey = toFirebaseVendorKey(vendorOverride || (cart && cart.vendor) || '');
+  await bridge.deleteDoc(bridge.doc(bridge.db, 'vendors', vendorKey, 'carts', tempCartNumber));
+}
+async function clearTempCartByPoNumber(poNumber) {
+  if (!poNumber) return;
+  const cartsToRemove = state.tempCarts.filter(function(cart) {
+    return String(cart.poNumber || '') === String(poNumber);
+  });
+  const nextActive = state.tempCarts.filter(function(cart) {
+    return String(cart.poNumber || '') !== String(poNumber);
+  });
+  state.tempCarts = nextActive;
+  if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) {
+    state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : '';
+  }
+  persistState();
+  renderCart();
+  for (const cart of cartsToRemove) {
+    try {
+      await deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor);
+    } catch (error) {
+      console.error('Unable to clear PO temp cart from Firebase.', error);
+    }
+  }
+}
+async function purgeCompletedTempCarts() {
+  const completed = getCompletedTempCarts();
+  if (!completed.length) return;
+  const completedKeys = completed.map(function(cart) { return cart.tempCartNumber; });
+  state.tempCarts = state.tempCarts.filter(function(cart) { return completedKeys.indexOf(cart.tempCartNumber) < 0; });
+  if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) {
+    state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : '';
+  }
+  persistState();
+  renderCart();
+  for (const cart of completed) {
+    try {
+      await deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor);
+    } catch (error) {
+      console.error('Unable to purge completed cart from Firebase.', error);
+    }
+  }
+}
+function populateCatalogueVendorFilter() {
+  const select = document.getElementById('catalogueVendorFilter');
+  if (!select) return;
+  const current = select.value || '';
+  const vendors = Array.from(new Set(state.catalogue.filter(function(item) {
+    return isCatalogueItemActive(item);
+  }).map(function(item) { return String(item.vendor || '').trim(); }).filter(Boolean))).sort(function(a, b) { return a.localeCompare(b); });
+  select.innerHTML = '<option value="">All Vendors</option>' + vendors.map(function(vendor) {
+    return '<option value="' + escapeAttr(vendor) + '">' + escapeHtml(vendor) + '</option>';
+  }).join('');
+  if (vendors.indexOf(current) >= 0) select.value = current;
+}
+function setTodayDefault() { const el = document.getElementById('poDate'); if (el && !el.value) el.value = new Date().toISOString().slice(0, 10); }
+function resetCataloguePagination() { state.cataloguePage = 1; renderCatalogue(); }
+function updateCataloguePageSize(value) {
+  const size = Number(value || 20);
+  state.cataloguePageSize = size === 50 ? 50 : 20;
+  state.cataloguePage = 1;
+  renderCatalogue();
+}
+function setCatalogueViewMode(mode) {
+  state.catalogueViewMode = mode === 'list' ? 'list' : 'card';
+  renderCatalogue();
+}
+function updateCatalogueViewButtons() {
+  const cardBtn = document.getElementById('catalogueCardViewBtn');
+  const listBtn = document.getElementById('catalogueListViewBtn');
+  if (cardBtn) cardBtn.className = state.catalogueViewMode === 'card' ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-outline-secondary';
+  if (listBtn) listBtn.className = state.catalogueViewMode === 'list' ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-outline-secondary';
+}
+function compareCatalogueValues(a, b, key) {
+  if (key === 'price') return Number(a.price || 0) - Number(b.price || 0);
+  return String(a[key] || '').localeCompare(String(b[key] || ''), undefined, { numeric: true, sensitivity: 'base' });
+}
+function updateCatalogueSortIndicators() {
+  ['itemName', 'barcode', 'vendor', 'price', 'uom'].forEach(function(key) {
+    const el = document.getElementById('catalogueSort_' + key);
+    if (!el) return;
+    if (state.catalogueSortKey !== key) {
+      el.textContent = '↕';
+      return;
+    }
+    el.textContent = state.catalogueSortDir === 'asc' ? '↑' : '↓';
+  });
+}
+function sortCatalogueBy(key) {
+  if (state.catalogueSortKey === key) state.catalogueSortDir = state.catalogueSortDir === 'asc' ? 'desc' : 'asc';
+  else {
+    state.catalogueSortKey = key;
+    state.catalogueSortDir = key === 'price' ? 'desc' : 'asc';
+  }
+  state.cataloguePage = 1;
+  renderCatalogue();
+}
+function changeCataloguePage(delta) {
+  const totalRows = getFilteredSortedCatalogueRows().length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / state.cataloguePageSize));
+  state.cataloguePage = Math.min(totalPages, Math.max(1, state.cataloguePage + Number(delta || 0)));
+  renderCatalogue();
+}
+function getFilteredSortedCatalogueRows() {
+  const query = (document.getElementById('catalogueSearch').value || '').trim().toLowerCase();
+  const vendorFilter = (document.getElementById('catalogueVendorFilter').value || '').trim();
+  return state.catalogue.filter(function(item) {
+    if (!isCatalogueItemActive(item)) return false;
+    if (vendorFilter && String(item.vendor || '').trim() !== vendorFilter) return false;
+    if (!query) return true;
+    return [item.vendor, item.barcode, item.itemName, item.uom].join(' ').toLowerCase().indexOf(query) >= 0;
+  }).slice().sort(function(a, b) {
+    const result = compareCatalogueValues(a, b, state.catalogueSortKey);
+    return state.catalogueSortDir === 'asc' ? result : -result;
+  });
+}
+async function boot() {
+  try {
+    showLoading(true, 'Please wait while data is loading.');
+    setStatus('Loading');
+    hydrateLocalCache();
+    resetCatalogueForm();
+    applySettings();
+    await loadSettings();
+    resetCataloguePagination();
+    await refreshDashboard();
+    setTodayDefault();
+    await startFirebaseCartSync();
+    renderCart();
+    refreshPendingList();
+    setStatus('Ready');
+  } catch (error) {
+    console.error(error);
+    alert(error.message || 'Unable to boot app.');
+    setStatus('Error');
+  } finally {
+    showLoading(false);
+  }
+}
+async function loadSettings() { const result = await apiCall('getSettings', {}); state.settings = { ...DEFAULT_SETTINGS, ...(result.settings || {}) }; persistState(); applySettings(); }
+async function refreshCatalogueFromRemote() {
+  showLoading(true, 'Refreshing catalogue...');
+  try {
+    state.catalogue = [];
+    writeStorage(STORAGE_KEYS.catalogue, []);
+    renderCatalogue();
+    const result = await apiCall('listCatalogue', {});
+    state.catalogue = Array.isArray(result.catalogue) ? result.catalogue : [];
+    persistState();
+    resetCataloguePagination();
+  } catch (error) {
+    alert(error.message || 'Unable to refresh catalogue.');
+  } finally {
+    showLoading(false);
+  }
+}
+function renderCatalogue() {
+  const root = document.getElementById('catalogueList');
+  const pageLabel = document.getElementById('cataloguePageLabel');
+  const countLabel = document.getElementById('catalogueCountLabel');
+  const pageSizeSelect = document.getElementById('cataloguePageSize');
+  populateCatalogueVendorFilter();
+  const rows = getFilteredSortedCatalogueRows();
+  const totalPages = Math.max(1, Math.ceil(rows.length / state.cataloguePageSize));
+  state.cataloguePage = Math.min(totalPages, Math.max(1, state.cataloguePage || 1));
+  const startIndex = (state.cataloguePage - 1) * state.cataloguePageSize;
+  const pageRows = rows.slice(startIndex, startIndex + state.cataloguePageSize);
+  root.className = (state.catalogueViewMode === 'list' ? 'catalogue-line-list' : 'catalogue-list') + ' mt-3';
+  updateCatalogueViewButtons();
+  updateCatalogueSortIndicators();
+  if (pageSizeSelect) pageSizeSelect.value = String(state.cataloguePageSize);
+  if (pageLabel) pageLabel.textContent = 'Page ' + String(state.cataloguePage) + ' / ' + String(totalPages);
+  if (countLabel) countLabel.textContent = 'Showing ' + String(pageRows.length) + ' of ' + String(rows.length);
+  if (!rows.length) { root.innerHTML = '<div class="small-muted">No catalogue items found.</div>'; return; }
+  if (state.catalogueViewMode === 'list') {
+    root.innerHTML = '<div class="catalogue-line catalogue-line-head"><div class="line-cell">Item</div><div class="line-cell">Barcode</div><div class="line-cell">Vendor</div><div class="line-cell text-right">Price</div><div class="line-cell">UOM</div><div class="line-cell text-right">Action</div></div>' + pageRows.map(function(item) {
+      return '<div class="catalogue-line"><div class="line-cell"><div class="line-title">' + escapeHtml(item.itemName || '') + '</div><div class="line-sub">Default Qty: ' + escapeHtml(String(item.defaultQty || 1)) + '</div></div><div class="line-cell mono">' + escapeHtml(item.barcode || '-') + '</div><div class="line-cell">' + escapeHtml(item.vendor || '-') + '</div><div class="line-cell text-right">' + formatMoney(item.price) + '</div><div class="line-cell">' + escapeHtml(item.uom || '-') + '</div><div class="line-cell text-right"><button class="btn btn-sm btn-primary mr-1" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">Add To Cart</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div>';
+    }).join('');
+    return;
+  }
+  root.innerHTML = pageRows.map(function(item) {
+    const thumbUrl = buildPhotoThumbUrl(item.photoFileId, item.photoUrl);
+    const photo = thumbUrl ? '<img src="' + escapeAttr(thumbUrl) + '" alt="' + escapeAttr(item.itemName) + '" loading="lazy">' : '<div class="placeholder">No Photo</div>';
+    return '<div class="catalogue-card"><div class="catalogue-photo" onclick="openCataloguePhotoPreview(\'' + escapeJs(item.itemName || 'Photo Preview') + '\', \'' + escapeJs(item.photoFileId || '') + '\', \'' + escapeJs(item.photoUrl || '') + '\')">' + photo + '</div><div class="catalogue-body"><div class="d-flex justify-content-between align-items-start" style="gap:8px;"><div class="catalogue-head"><div><b class="catalogue-item-name">' + escapeHtml(item.itemName) + '</b></div><div class="small-muted mono">' + escapeHtml(item.barcode || '-') + '</div><div class="small-muted">Vendor: <b>' + escapeHtml(item.vendor || '-') + '</b></div></div><span class="pill">' + formatMoney(item.price) + '</span></div><div class="catalogue-meta mt-2"><div>UOM: <b>' + escapeHtml(item.uom || '-') + '</b></div><div>Default Qty: <b>' + escapeHtml(String(item.defaultQty || 1)) + '</b></div></div><div class="mt-3 d-flex flex-wrap" style="gap:8px;"><button class="btn btn-sm btn-primary" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">Add To Cart</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div></div>';
+  }).join('');
+}
+function extractDriveFileId(photoUrl) {
+  const text = String(photoUrl || '');
+  if (!text) return '';
+  let match = text.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  match = text.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  return '';
+}
+function buildPhotoThumbUrl(fileId, photoUrl) {
+  const id = String(fileId || '').trim() || extractDriveFileId(photoUrl);
+  if (id) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w1200';
+  return photoUrl || '';
+}
+function buildPhotoPreviewUrl(fileId, photoUrl) {
+  const id = String(fileId || '').trim() || extractDriveFileId(photoUrl);
+  if (id) return 'https://drive.google.com/file/d/' + encodeURIComponent(id) + '/preview';
+  return photoUrl || 'about:blank';
+}
+function openCataloguePhotoPreview(title, fileId, photoUrl) {
+  if (!fileId && !photoUrl) return;
+  document.getElementById('cataloguePhotoModalTitle').textContent = title || 'Photo Preview';
+  document.getElementById('cataloguePhotoFrame').src = buildPhotoPreviewUrl(fileId, photoUrl);
+  if (window.jQuery) window.jQuery('#cataloguePhotoModal').modal('show');
+}
+function createEmptyItemMasterRow() {
+  return { itemId: '', vendor: '', barcode: '', itemName: '', price: '', uom: '', defaultQty: 1, active: true, photoDataUrl: '', photoUrl: '', photoFileId: '' };
+}
+function isCatalogueItemActive(item) {
+  const value = item && item.active;
+  if (value === false) return false;
+  return String(value == null ? 'TRUE' : value).toUpperCase() !== 'FALSE';
+}
+function updateItemMasterCountLabel() {
+  document.getElementById('itemMasterCountLabel').textContent = 'Rows ' + state.itemMasterRows.length + ' / 10';
+}
+function renderItemMasterRows() {
+  const root = document.getElementById('itemMasterRows');
+  if (!state.itemMasterRows.length) {
+    state.itemMasterRows = [createEmptyItemMasterRow()];
+  }
+  root.innerHTML = state.itemMasterRows.map(function(row, idx) {
+    const photoText = row.photoDataUrl || row.photoUrl ? 'Photo ready' : 'No photo';
+    return '<div class="master-row">' +
+      '<div class="form-group"><input type="text" class="form-control" placeholder="Vendor" value="' + escapeAttr(row.vendor || '') + '" oninput="updateItemMasterField(' + idx + ', \'vendor\', this.value)"></div>' +
+      '<div class="form-group"><input type="text" class="form-control" placeholder="Barcode" value="' + escapeAttr(row.barcode || '') + '" oninput="updateItemMasterField(' + idx + ', \'barcode\', this.value)"></div>' +
+      '<div class="form-group"><input type="text" class="form-control" placeholder="Item name" value="' + escapeAttr(row.itemName || '') + '" oninput="updateItemMasterField(' + idx + ', \'itemName\', this.value)"></div>' +
+      '<div class="form-group"><input type="number" class="form-control" min="0" step="0.01" placeholder="0.00" value="' + escapeAttr(String(row.price || '')) + '" oninput="updateItemMasterField(' + idx + ', \'price\', this.value)"></div>' +
+      '<div class="form-group"><input type="text" class="form-control" placeholder="PCS" value="' + escapeAttr(row.uom || '') + '" oninput="updateItemMasterField(' + idx + ', \'uom\', this.value)"></div>' +
+      '<div class="form-group"><input type="number" class="form-control" min="1" step="1" value="' + escapeAttr(String(row.defaultQty || 1)) + '" oninput="updateItemMasterField(' + idx + ', \'defaultQty\', this.value)"></div>' +
+      '<div class="form-group pt-2"><div class="form-check"><input class="form-check-input" type="checkbox" ' + (row.active !== false ? 'checked ' : '') + 'onchange="updateItemMasterActive(' + idx + ', this.checked)"><label class="form-check-label small-muted">Show</label></div></div>' +
+      '<div class="form-group"><input type="file" class="form-control-file" accept="image/*" onchange="handleItemMasterPhoto(' + idx + ', this)"><div class="small-muted mt-1">' + escapeHtml(photoText) + '</div></div>' +
+      '<div class="form-group"><button type="button" class="btn btn-outline-danger btn-sm" onclick="removeItemMasterRow(' + idx + ')">X</button></div>' +
+    '</div>';
+  }).join('');
+  updateItemMasterCountLabel();
+}
+function resetCatalogueForm() {
+  state.itemMasterRows = [createEmptyItemMasterRow()];
+  renderItemMasterRows();
+}
+function addItemMasterRow() {
+  if (state.itemMasterRows.length >= 10) {
+    alert('Maximum 10 items per batch.');
+    return;
+  }
+  state.itemMasterRows.push(createEmptyItemMasterRow());
+  renderItemMasterRows();
+}
+function removeItemMasterRow(idx) {
+  if (state.itemMasterRows.length === 1) {
+    state.itemMasterRows = [createEmptyItemMasterRow()];
+  } else {
+    state.itemMasterRows.splice(idx, 1);
+  }
+  renderItemMasterRows();
+}
+function updateItemMasterField(idx, field, value) {
+  if (!state.itemMasterRows[idx]) return;
+  state.itemMasterRows[idx][field] = field === 'defaultQty' || field === 'price' ? value : String(value || '');
+}
+function updateItemMasterActive(idx, checked) {
+  if (!state.itemMasterRows[idx]) return;
+  state.itemMasterRows[idx].active = checked !== false;
+}
+async function handleItemMasterPhoto(idx, input) {
+  const file = input.files && input.files[0];
+  if (!file || !state.itemMasterRows[idx]) return;
+  state.itemMasterRows[idx].photoDataUrl = await compressImageFile(file);
+  renderItemMasterRows();
+}
+function openNewItemMaster() { resetCatalogueForm(); showTab('tab-item-master'); }
+function editCatalogueItem(itemBarcode) {
+  const item = state.catalogue.find(function(row) { return String(row.barcode || '') === String(itemBarcode || ''); });
+  if (!item) return;
+  state.itemMasterRows = [{
+    itemId: item.itemId || '',
+    vendor: item.vendor || '',
+    barcode: item.barcode || '',
+    itemName: item.itemName || '',
+    price: item.price || '',
+    uom: item.uom || '',
+    defaultQty: item.defaultQty || 1,
+    active: String(item.active || 'TRUE').toUpperCase() !== 'FALSE',
+    photoDataUrl: '',
+    photoUrl: item.photoUrl || '',
+    photoFileId: item.photoFileId || ''
+  }];
+  renderItemMasterRows();
+  showTab('tab-item-master');
+}
+async function saveCatalogueItemsBatch() {
+  const filledRows = state.itemMasterRows.filter(function(row) {
+    return [row.vendor, row.barcode, row.itemName, row.price, row.uom].join('').trim();
+  });
+  if (!filledRows.length) {
+    alert('Fill at least one item row.');
+    return;
+  }
+  if (filledRows.length > 10) {
+    alert('Maximum 10 items per save.');
+    return;
+  }
+  showLoading(true, 'Saving item master batch...');
+  try {
+    const items = [];
+    for (const row of filledRows) {
+      if (!String(row.vendor || '').trim() || !String(row.itemName || '').trim() || !String(row.uom || '').trim() || !Number(row.price || 0)) {
+        throw new Error('Every filled row needs vendor, item name, price, and UOM.');
+      }
+      let photoMeta = { fileId: row.photoFileId || '', url: row.photoUrl || '' };
+      if (row.photoDataUrl) {
+        const upload = await apiCall('uploadCataloguePhoto', { dataUrl: row.photoDataUrl, fileName: buildPhotoFileName(row.itemName || 'catalogue-item') });
+        photoMeta = upload.fileMeta || photoMeta;
+      }
+      items.push({
+        itemId: row.itemId || '',
+        vendor: String(row.vendor || '').trim(),
+        barcode: String(row.barcode || '').trim(),
+        itemName: String(row.itemName || '').trim(),
+        price: Number(row.price || 0),
+        uom: String(row.uom || '').trim(),
+        defaultQty: Math.max(1, Number(row.defaultQty || 1) || 1),
+        active: row.active !== false,
+        photoFileId: photoMeta.fileId,
+        photoUrl: photoMeta.url
+      });
+    }
+    const result = await apiCall('saveCatalogueItems', { items: items });
+    const savedRows = Array.isArray(result.items) ? result.items : [];
+    const catalogueMap = {};
+    state.catalogue.forEach(function(item) {
+      const barcodeKey = String(item.barcode || '').trim();
+      if (barcodeKey) catalogueMap[barcodeKey] = item;
+    });
+    savedRows.forEach(function(item) {
+      const barcodeKey = String(item.barcode || '').trim();
+      if (barcodeKey) catalogueMap[barcodeKey] = { ...catalogueMap[barcodeKey], ...item };
+    });
+    if (Array.isArray(result.catalogue) && result.catalogue.length) {
+      result.catalogue.forEach(function(item) {
+        const barcodeKey = String(item.barcode || '').trim();
+        if (barcodeKey) catalogueMap[barcodeKey] = { ...catalogueMap[barcodeKey], ...item };
+      });
+    }
+    state.catalogue = Object.keys(catalogueMap).map(function(key) { return catalogueMap[key]; }).sort(function(a, b) {
+      return String(a.itemName || '').localeCompare(String(b.itemName || ''));
+    });
+    persistState();
+    renderCatalogue();
+    resetCatalogueForm();
+    alert(items.length + ' item(s) saved.');
+    showTab('tab-catalogue');
+  } catch (error) {
+    alert(error.message || 'Unable to save item batch.');
+  } finally {
+    showLoading(false);
+  }
+}
+function buildPhotoFileName(itemName) { return String(itemName || 'catalogue-item').replace(/[^a-zA-Z0-9_-]+/g, '_') + '.jpg'; }
+async function compressImageFile(file) {
+  return new Promise(function(resolve, reject) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const min = Math.min(img.width, img.height);
+        const sx = Math.floor((img.width - min) / 2);
+        const sy = Math.floor((img.height - min) / 2);
+        const canvas = document.createElement('canvas');
+        canvas.width = 900;
+        canvas.height = 900;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+function formatShortDateKey(date) {
+  const value = date instanceof Date ? date : new Date(date);
+  const day = String(value.getDate()).padStart(2, '0');
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const year = String(value.getFullYear()).slice(-2);
+  return day + month + year;
+}
+function buildShortCode(value, length) {
+  return (String(value || '').toUpperCase().replace(/[^A-Z0-9]+/g, '').slice(0, length || 3) || 'NA').padEnd(length || 3, 'X');
+}
+function generateTempCartNumber(vendor) {
+  const vendorCode = buildShortCode(vendor, 3);
+  return vendorCode + formatShortDateKey(new Date());
+}
+function getActiveTempCart() {
+  const carts = getWaitingTempCarts();
+  return carts.find(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; }) || null;
+}
+function syncCartPanelVisibility() {
+  const listSection = document.getElementById('cartListSection');
+  const editSection = document.getElementById('cartEditSection');
+  const hasActiveCart = !!getActiveTempCart();
+  const showEditor = !!state.cartEditorOpen && hasActiveCart;
+  if (listSection) listSection.style.display = showEditor ? 'none' : '';
+  if (editSection) editSection.style.display = showEditor ? '' : 'none';
+}
+function openCartEditor(tempCartNumber) {
+  state.activeTempCartNumber = tempCartNumber || state.activeTempCartNumber || '';
+  state.cartEditorOpen = true;
+  persistState();
+  markCartDirty(false);
+  renderCart();
+}
+function closeCartEditor() {
+  state.cartEditorOpen = false;
+  persistState();
+  markCartDirty(false);
+  renderCart();
+}
+function markCartDirty(isDirty) {
+  state.cartDirty = isDirty !== false;
+  updateSaveCartButton();
+}
+function updateSaveCartButton() {
+  const btn = document.getElementById('saveCartBtn');
+  if (!btn) return;
+  const cart = getActiveTempCart();
+  if (!cart) {
+    btn.className = 'btn btn-secondary';
+    btn.textContent = 'Save Cart';
+    btn.disabled = true;
+    return;
+  }
+  btn.disabled = false;
+  if (state.cartDirty) {
+    btn.className = 'btn btn-primary';
+    btn.textContent = 'Save Cart';
+  } else {
+    btn.className = 'btn btn-secondary';
+    btn.textContent = 'Cart Saved';
+  }
+}
+function ensureTempCartForVendor(vendor) {
+  let cart = state.tempCarts.find(function(row) {
+    return row.vendor === vendor &&
+      String(row.status || 'PENDING').toUpperCase() === 'PENDING';
+  });
+  if (!cart) {
+    cart = { tempCartNumber: generateTempCartNumber(vendor), vendor: vendor, status: 'PENDING', poNumber: '', items: [], notes: '', createdAt: new Date().toISOString() };
+    state.tempCarts.push(cart);
+  }
+  state.activeTempCartNumber = cart.tempCartNumber;
+  return cart;
+}
+async function addToCart(itemBarcode) {
+  const barcode = String(itemBarcode || '').trim();
+  if (!barcode) { alert('Item barcode is required before adding to cart.'); return; }
+  const item = state.catalogue.find(function(row) { return String(row.barcode || '').trim() === barcode; });
+  if (!item) return;
+  const cart = ensureTempCartForVendor(item.vendor || 'Unknown Vendor');
+  if (!cart) return;
+  const existing = cart.items.find(function(row) { return String(row.barcode || '').trim() === barcode; });
+  if (existing) existing.orderQty = Number(existing.orderQty || 0) + Number(item.defaultQty || 1);
+  else cart.items.push({ itemId: item.itemId, vendor: item.vendor || '', barcode: item.barcode, itemName: item.itemName, price: Number(item.price || 0), uom: item.uom, orderQty: Number(item.defaultQty || 1), checkedQty: Number(item.defaultQty || 1), confirmedQty: 0, stockNote: '', photoFileId: item.photoFileId || '', photoUrl: item.photoUrl || '' });
+  persistState();
+  renderCart();
+  try {
+    await syncTempCartToFirebase(cart);
+    markCartDirty(false);
+  } catch (error) {
+    console.error('Unable to sync cart add.', error);
+    markCartDirty(true);
+  }
+  renderCart();
+  alert((item.itemName || 'Item') + ' added to cart.');
+}
+function renderCart() {
+  renderTempCartOptions();
+  renderTempCartGroups();
+  syncCartPanelVisibility();
+  const cart = getActiveTempCart();
+  const tbody = document.getElementById('cartTbody');
+  const remarkInput = document.getElementById('poNotes');
+  if (remarkInput) remarkInput.value = cart ? String(cart.notes || '') : '';
+  if (!cart || !cart.items.length) { tbody.innerHTML = '<tr><td colspan="10" class="text-center small-muted p-3">Cart is empty.</td></tr>'; updateCartSummary(); return; }
+  tbody.innerHTML = cart.items.map(function(item, idx) {
+    const amount = Number(item.orderQty || 0) * Number(item.price || 0);
+    const checkedQty = item.checkedQty != null ? item.checkedQty : item.orderQty || 0;
+    const thumbUrl = buildPhotoThumbUrl(item.photoFileId, item.photoUrl);
+    const photo = thumbUrl ? '<img src="' + escapeAttr(thumbUrl) + '" alt="' + escapeAttr(item.itemName || 'Photo') + '" loading="lazy" style="width:52px;height:52px;object-fit:cover;border-radius:10px;cursor:pointer;" onclick="openCataloguePhotoPreview(\'' + escapeJs(item.itemName || 'Photo Preview') + '\', \'' + escapeJs(item.photoFileId || '') + '\', \'' + escapeJs(item.photoUrl || '') + '\')">' : '<div class="small-muted">-</div>';
+    return '<tr><td>' + photo + '</td><td class="mono">' + escapeHtml(item.barcode || '-') + '</td><td>' + escapeHtml(item.itemName || '') + '</td><td class="text-right">' + formatMoney(item.price) + '</td><td>' + escapeHtml(item.uom || '') + '</td><td class="text-right"><input type="number" class="form-control form-control-sm text-right" min="0" step="1" value="' + escapeAttr(String(checkedQty)) + '" onchange="updateCartCheckedQty(' + idx + ', this.value)"></td><td class="text-right"><input type="number" class="form-control form-control-sm text-right" min="1" step="1" value="' + escapeAttr(String(item.orderQty || 1)) + '" onchange="updateCartQty(' + idx + ', this.value)"></td><td><input type="text" class="form-control form-control-sm" value="' + escapeAttr(item.stockNote || '') + '" onchange="updateCartItemRemark(' + idx + ', this.value)" placeholder="Item remark"></td><td class="text-right">' + formatMoney(amount) + '</td><td class="text-right"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCartItem(' + idx + ')">Remove</button></td></tr>';
+  }).join('');
+  updateCartSummary();
+}
+function updateCartRemark(value) {
+  const cart = getActiveTempCart();
+  if (!cart) return;
+  cart.notes = String(value || '');
+  persistState();
+  markCartDirty(true);
+}
+function renderReadyPoList() {
+  const tbody = document.getElementById('readyPoTbody');
+  if (!tbody) return;
+  const rows = getApprovedTempCarts();
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center small-muted p-3">No approved PO ready yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(function(row) {
+    const summary = summarizeCart(row);
+    const completedDoc = state.completedDocuments.find(function(doc) { return doc.docNumber === (row.poNumber || row.tempCartNumber); }) || {};
+    const csvLink = completedDoc.urlLink ? '<a href="' + escapeAttr(completedDoc.urlLink) + '" target="_blank" rel="noopener">Open CSV</a>' : '-';
+    const docKey = row.poNumber || row.tempCartNumber || '';
+    const generating = String(state.generatingPoNumber || '') === String(docKey);
+    const generateBtn = '<button type="button" class="btn btn-sm ' + (generating ? 'btn-secondary' : 'btn-success') + ' mr-1" onclick="generateApprovedPoCsv(\'' + escapeJs(docKey) + '\')" ' + (generating ? 'disabled' : '') + '>' + (generating ? 'Generating...' : 'Generate PO') + '</button>';
+    return '<tr><td class="mono">' + escapeHtml(docKey) + '</td><td>' + escapeHtml(row.vendor || '-') + '</td><td>' + escapeHtml(completedDoc.timestamp || '') + '</td><td><span class="status-badge status-' + escapeAttr(row.status || 'APPROVED') + '">' + escapeHtml(row.status || 'APPROVED') + '</span></td><td class="text-right">' + escapeHtml(String(summary.qty || 0)) + '</td><td class="text-right">' + formatMoney(completedDoc.documentValue || summary.amount || 0) + '</td><td>' + csvLink + '</td><td class="text-right"><button type="button" class="btn btn-sm btn-outline-warning mr-1" onclick="cancelApprovedCart(\'' + escapeJs(docKey) + '\')">Cancel / Reedit</button>' + generateBtn + '</td></tr>';
+  }).join('');
+}
+async function cancelApprovedCart(docKey) {
+  const cart = getApprovedTempCarts().find(function(row) {
+    return String(row.poNumber || row.tempCartNumber || '') === String(docKey || '');
+  });
+  if (!cart) { alert('Approved document not found.'); return; }
+  showLoading(true, 'Returning document to pending...');
+  try {
+    cart.status = 'PENDING';
+    persistState();
+    await syncTempCartToFirebase(cart);
+    renderCart();
+    renderReadyPoList();
+    await refreshDashboard();
+    alert('Document returned to pending.');
+  } catch (error) {
+    alert(error.message || 'Unable to return document to pending.');
+  } finally {
+    showLoading(false);
+  }
+}
+function renderTempCartOptions() {
+  const select = document.getElementById('tempCartSelect');
+  if (!select) return;
+  const carts = getWaitingTempCarts();
+  select.innerHTML = '<option value="">Select temporary cart</option>' + carts.map(function(cart) {
+    return '<option value="' + escapeAttr(cart.tempCartNumber) + '">' + escapeHtml(cart.tempCartNumber + ' - ' + cart.vendor) + '</option>';
+  }).join('');
+  if (state.activeTempCartNumber) select.value = state.activeTempCartNumber;
+}
+function renderTempCartGroups() {
+  const tbody = document.getElementById('cartGroupTbody');
+  const carts = getWaitingTempCarts();
+  if (!carts.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-center small-muted p-3">No temporary carts yet.</td></tr>'; return; }
+  tbody.innerHTML = carts.map(function(cart) {
+    const summary = summarizeCart(cart);
+    return '<tr><td class="mono">' + escapeHtml(cart.tempCartNumber) + '</td><td>' + escapeHtml(cart.vendor || '-') + '</td><td class="text-right">' + escapeHtml(String(summary.count)) + '</td><td class="text-right">' + escapeHtml(String(summary.qty)) + '</td><td class="text-right">' + formatMoney(summary.amount) + '</td><td class="text-right"><button type="button" class="btn btn-sm btn-outline-primary" onclick="selectTempCart(\'' + escapeJs(cart.tempCartNumber) + '\')">Edit</button></td></tr>';
+  }).join('');
+}
+function summarizeCart(cart) {
+  return (cart && cart.items || []).reduce(function(acc, item) {
+    acc.count += 1;
+    acc.qty += Number(item.orderQty || 0);
+    acc.amount += Number(item.orderQty || 0) * Number(item.price || 0);
+    return acc;
+  }, { count: 0, qty: 0, amount: 0 });
+}
+function selectTempCart(tempCartNumber) {
+  openCartEditor(tempCartNumber || '');
+}
+function buildPoPayloadFromCart(cart, status) {
+  const poDateInput = document.getElementById('poDate');
+  const poNotesInput = document.getElementById('poNotes');
+  const fallbackDate = state.currentPoHeader && state.currentPoHeader.poDate ? normalizeDateInput(state.currentPoHeader.poDate) : new Date().toISOString().slice(0, 10);
+  return {
+    poNumber: cart && cart.poNumber ? cart.poNumber : '',
+    tempCartNumber: cart && cart.tempCartNumber ? cart.tempCartNumber : '',
+    vendor: cart ? cart.vendor : '',
+    poDate: poDateInput && poDateInput.value ? poDateInput.value : fallbackDate,
+    notes: poNotesInput ? poNotesInput.value.trim() || (cart && cart.notes ? cart.notes : '') : (cart && cart.notes ? cart.notes : ''),
+    status: status,
+    items: (cart ? cart.items : []).map(function(item) {
+      return { itemId: item.itemId, barcode: item.barcode, itemName: item.itemName, orderQty: Number(item.orderQty || 0), checkedQty: Number(item.checkedQty != null ? item.checkedQty : item.orderQty || 0), confirmedQty: Number(item.confirmedQty || 0), price: Number(item.price || 0), uom: item.uom, stockNote: item.stockNote || '' };
+    })
+  };
+}
+function updateCartSummary() {
+  const cart = getActiveTempCart();
+  const summary = summarizeCart(cart || { items: [] });
+  document.getElementById('poDraftLabel').textContent = cart ? cart.tempCartNumber : 'No Active Cart';
+  const docLabel = document.getElementById('cartEditDocLabel');
+  const vendorLabel = document.getElementById('cartEditVendorLabel');
+  const amountLabel = document.getElementById('cartEditAmountLabel');
+  if (docLabel) docLabel.textContent = cart ? String(cart.tempCartNumber || cart.poNumber || '-') : '-';
+  if (vendorLabel) vendorLabel.textContent = cart ? String(cart.vendor || '-') : '-';
+  if (amountLabel) amountLabel.textContent = formatMoney(summary.amount || 0);
+  const approveBtn = document.getElementById('approveCartBtn');
+  if (approveBtn) approveBtn.disabled = !cart || !cart.items || !cart.items.length;
+  updateSaveCartButton();
+}
+async function approveCartFromWaitingZone() {
+  const cart = getActiveTempCart();
+  if (!cart || !cart.items || !cart.items.length) { alert('Open a cart first.'); return; }
+  const password = window.prompt('Enter approve password:');
+  if (password == null) return;
+  if (String(password) !== APPROVE_PASSWORD) {
+    alert('Incorrect approve password.');
+    return;
+  }
+  showLoading(true, 'Approving cart...');
+  try {
+    await purgeCompletedTempCarts();
+    if (!cart.poNumber) {
+      cart.poNumber = cart.tempCartNumber;
+    }
+    cart.status = 'APPROVED';
+    persistState();
+    await syncTempCartToFirebase(cart);
+    state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : '';
+    state.cartEditorOpen = false;
+    renderCart();
+    renderReadyPoList();
+    alert('Cart approved: ' + cart.poNumber);
+  } catch (error) {
+    alert(error.message || 'Unable to approve cart.');
+  } finally {
+    showLoading(false);
+  }
+}
+function updateCartQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].orderQty = Math.max(1, Number(value || 1) || 1); if (Number(cart.items[idx].checkedQty || 0) > Number(cart.items[idx].orderQty || 0)) cart.items[idx].checkedQty = cart.items[idx].orderQty; persistState(); markCartDirty(true); renderCart(); }
+function updateCartCheckedQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].checkedQty = Math.max(0, Number(value || 0) || 0); persistState(); markCartDirty(true); renderCart(); }
+function updateCartItemRemark(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].stockNote = String(value || ''); persistState(); markCartDirty(true); }
+function removeCartItem(idx) { const cart = getActiveTempCart(); if (!cart) return; cart.items.splice(idx, 1); if (!cart.items.length) { state.tempCarts = state.tempCarts.filter(function(row) { return row.tempCartNumber !== cart.tempCartNumber; }); deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor).catch(function(error) { console.error('Unable to delete empty cart from Firebase.', error); }); markCartDirty(false); state.cartEditorOpen = false; } else { markCartDirty(true); } if (!state.tempCarts.some(function(row) { return row.tempCartNumber === state.activeTempCartNumber; })) state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : ''; persistState(); renderCart(); }
+function resetCart() { const cart = getActiveTempCart(); if (!cart) return; if (!confirm('Delete current temporary cart?')) return; state.tempCarts = state.tempCarts.filter(function(row) { return row.tempCartNumber !== cart.tempCartNumber; }); state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : ''; state.currentPoHeader = null; state.cartEditorOpen = false; persistState(); markCartDirty(false); renderCart(); deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor).catch(function(error) { console.error('Unable to delete cart from Firebase.', error); }); }
+async function saveCurrentCart() {
+  const cart = getActiveTempCart();
+  if (!cart) { alert('Select a temporary cart first.'); return; }
+  showLoading(true, 'Saving cart...');
+  try {
+    await syncTempCartToFirebase(cart);
+    persistState();
+    markCartDirty(false);
+    await reloadFirebaseCartSnapshotOnce();
+    markCartDirty(false);
+    state.cartEditorOpen = false;
+    renderCart();
+    await refreshDashboard();
+    refreshPendingList();
+    alert('Cart saved.');
+  } catch (error) {
+    alert(error.message || 'Unable to save cart.');
+  } finally {
+    showLoading(false);
+  }
+}
+async function refreshCartFromFirebase() {
+  showLoading(true, 'Refreshing cart...');
+  try {
+    await reloadFirebaseCartSnapshotOnce();
+    markCartDirty(false);
+    renderCart();
+  } catch (error) {
+    alert(error.message || 'Unable to refresh cart.');
+  } finally {
+    showLoading(false);
+  }
+}
+function buildPoPayload(status) {
+  const cart = getActiveTempCart();
+  return buildPoPayloadFromCart(cart, status);
+}
+async function refreshDashboard() {
+  showLoading(true, 'Please wait while data is loading.');
+  try {
+    const result = await apiCall('listCompletedDocuments', {});
+    state.completedDocuments = Array.isArray(result.documents) ? result.documents : [];
+    persistState();
+    renderDashboard();
+  } finally {
+    showLoading(false);
+  }
+}
+function resetDashboardPageAndRender() {
+  state.dashboardPage = 1;
+  renderDashboard();
+}
+function parseDashboardDateValue(value) {
+  const text = String(value || '').trim();
+  if (!text) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return new Date(text + 'T00:00:00');
+  const direct = new Date(text);
+  if (!isNaN(direct.getTime())) return direct;
+  const match = text.match(/^(\d{1,2})\/([A-Za-z]{3})\/(\d{4})$/);
+  if (!match) return null;
+  const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  const month = months[String(match[2] || '').toLowerCase()];
+  if (month == null) return null;
+  return new Date(Number(match[3]), month, Number(match[1]));
+}
+function getDashboardFilteredRows() {
+  const queryText = document.getElementById('dashboardSearch');
+  const dateFromInput = document.getElementById('dashboardDateFrom');
+  const dateToInput = document.getElementById('dashboardDateTo');
+  const query = String(queryText && queryText.value || '').trim().toLowerCase();
+  const fromDate = parseDashboardDateValue(dateFromInput && dateFromInput.value);
+  const toDate = parseDashboardDateValue(dateToInput && dateToInput.value);
+  if (toDate) toDate.setHours(23, 59, 59, 999);
+  return state.completedDocuments.filter(function(row) {
+    const rowDate = parseDashboardDateValue(row.timestamp);
+    if (fromDate && (!rowDate || rowDate < fromDate)) return false;
+    if (toDate && (!rowDate || rowDate > toDate)) return false;
+    if (!query) return true;
+    return [row.timestamp, row.docNumber, row.vendorName, row.urlLink].join(' ').toLowerCase().indexOf(query) >= 0;
+  });
+}
+function compareDashboardValues(a, b, key) {
+  if (key === 'documentValue') return Number(a[key] || 0) - Number(b[key] || 0);
+  if (key === 'timestamp') {
+    const aTime = parseDashboardDateValue(a.timestamp);
+    const bTime = parseDashboardDateValue(b.timestamp);
+    return (aTime ? aTime.getTime() : 0) - (bTime ? bTime.getTime() : 0);
+  }
+  return String(a[key] || '').localeCompare(String(b[key] || ''), undefined, { numeric: true, sensitivity: 'base' });
+}
+function updateDashboardSortIndicators() {
+  ['timestamp', 'docNumber', 'vendorName', 'documentValue'].forEach(function(key) {
+    const el = document.getElementById('sort_' + key);
+    if (!el) return;
+    if (state.dashboardSortKey !== key) {
+      el.textContent = '↕';
+      return;
+    }
+    el.textContent = state.dashboardSortDir === 'asc' ? '↑' : '↓';
+  });
+}
+function sortDashboardBy(key) {
+  if (state.dashboardSortKey === key) state.dashboardSortDir = state.dashboardSortDir === 'asc' ? 'desc' : 'asc';
+  else {
+    state.dashboardSortKey = key;
+    state.dashboardSortDir = key === 'timestamp' ? 'desc' : 'asc';
+  }
+  state.dashboardPage = 1;
+  renderDashboard();
+}
+function changeDashboardPage(delta) {
+  const filteredRows = getDashboardFilteredRows();
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / DASHBOARD_PAGE_SIZE));
+  state.dashboardPage = Math.min(totalPages, Math.max(1, state.dashboardPage + Number(delta || 0)));
+  renderDashboard();
+}
+function renderDashboard() {
+  const tbody = document.getElementById('dashboardTbody');
+  const totalAmountEl = document.getElementById('dashboardTotalAmount');
+  const pageLabelEl = document.getElementById('dashboardPageLabel');
+  const filteredRows = getDashboardFilteredRows().slice().sort(function(a, b) {
+    const result = compareDashboardValues(a, b, state.dashboardSortKey);
+    return state.dashboardSortDir === 'asc' ? result : -result;
+  });
+  const totalAmount = filteredRows.reduce(function(sum, row) { return sum + Number(row.documentValue || 0); }, 0);
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / DASHBOARD_PAGE_SIZE));
+  state.dashboardPage = Math.min(totalPages, Math.max(1, state.dashboardPage || 1));
+  const startIndex = (state.dashboardPage - 1) * DASHBOARD_PAGE_SIZE;
+  const pageRows = filteredRows.slice(startIndex, startIndex + DASHBOARD_PAGE_SIZE);
+  if (totalAmountEl) totalAmountEl.textContent = formatMoney(totalAmount);
+  if (pageLabelEl) pageLabelEl.textContent = String(state.dashboardPage) + ' / ' + String(totalPages);
+  updateDashboardSortIndicators();
+  if (!pageRows.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center small-muted p-3">No completed document records found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = pageRows.map(function(row) {
+    const csvLink = row.urlLink ? '<a href="' + escapeAttr(row.urlLink) + '" target="_blank" rel="noopener">Open</a>' : '-';
+    return '<tr><td>' + escapeHtml(row.timestamp || '') + '</td><td class="mono">' + escapeHtml(row.docNumber || '') + '</td><td>' + escapeHtml(row.vendorName || '') + '</td><td class="text-right">' + formatMoney(row.documentValue || 0) + '</td><td>' + csvLink + '</td></tr>';
+  }).join('');
+}
+function buildSimpleWhatsAppShareUrl(vendorName, documentUrl) {
+  const baseLink = String((state.settings && state.settings.whatsappLink) || DEFAULT_SETTINGS.whatsappLink || 'https://wa.me/').trim();
+  const message = 'New order to ' + String(vendorName || '-') + '-' + String(documentUrl || '');
+  const encoded = encodeURIComponent(message);
+  return baseLink.indexOf('?') >= 0 ? baseLink + '&text=' + encoded : baseLink + '?text=' + encoded;
+}
+function refreshPendingList() {
+  renderReadyPoList();
+}
+async function generateApprovedPoCsv(poNumber) {
+  if (String(state.generatingPoNumber || '') === String(poNumber || '')) return;
+  state.generatingPoNumber = String(poNumber || '');
+  renderReadyPoList();
+  showLoading(true, 'Generating PO CSV...');
+  try {
+    const approvedCart = getApprovedTempCarts().find(function(cart) {
+      return String(cart.poNumber || cart.tempCartNumber || '') === String(poNumber || '');
+    }) || null;
+    if (!approvedCart) throw new Error('Approved cart not found.');
+    approvedCart.poNumber = approvedCart.poNumber || approvedCart.tempCartNumber;
+    const result = await apiCall('exportPoCsv', buildPoPayloadFromCart(approvedCart, 'Complete'));
+    if (result && result.poHeader) {
+      approvedCart.poNumber = result.poHeader.poNumber;
+      approvedCart.status = 'COMPLETE';
+      await syncTempCartToFirebase(approvedCart);
+      persistState();
+      await refreshDashboard();
+      renderCart();
+      renderReadyPoList();
+      if (result.fileMeta && result.fileMeta.url) window.open(result.fileMeta.url, '_blank');
+    }
+  } catch (error) {
+    alert(error.message || 'Unable to generate PO CSV.');
+  } finally {
+    state.generatingPoNumber = '';
+    renderReadyPoList();
+    showLoading(false);
+  }
+}
+async function apiCall(action, payload) {
+  const request = { action: action, ...(payload || {}) };
+  if (window.google && google.script && google.script.run) {
+    return new Promise(function(resolve, reject) {
+      google.script.run.withSuccessHandler(function(result) { if (result.status !== 'SUCCESS') reject(new Error(result.message || 'Request failed.')); else resolve(result); }).withFailureHandler(function(error) { reject(new Error(error && error.message ? error.message : String(error))); }).api(action, request);
+    });
+  }
+  const scriptUrl = state.settings.scriptUrl || DEFAULT_SETTINGS.scriptUrl;
+  if (!scriptUrl) throw new Error('Missing scriptUrl in Settings sheet or local cache.');
+  const response = await fetch(scriptUrl, { method: 'POST', body: JSON.stringify(request) });
+  const result = await response.json();
+  if (result.status !== 'SUCCESS') throw new Error(result.message || 'Request failed.');
+  return result;
+}
+function formatMoney(value) { return 'RMB ' + Number(value || 0).toFixed(2); }
+function escapeHtml(text) { return String(text || '').replace(/[&<>"']/g, function(m) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]; }); }
+function escapeAttr(text) { return escapeHtml(text).replace(/`/g, '&#96;'); }
+function escapeJs(text) { return String(text || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+boot();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
