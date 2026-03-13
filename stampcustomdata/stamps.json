@@ -1,0 +1,374 @@
+{
+  "stamps": [
+    {
+      "articleNo": "QPTL-Q1125R-U",
+      "model": "Q04",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 11.0,
+      "heightMm": 25.0,
+      "diameterMm": null,
+      "rsp": 36.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q04 (11 X 25mm)",
+      "sizeLabel": "11 x 25 mm"
+    },
+    {
+      "articleNo": "QPTL-Q0460R-U",
+      "model": "Q05",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 4.0,
+      "heightMm": 60.0,
+      "diameterMm": null,
+      "rsp": 36.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q05 (04 X 60mm)",
+      "sizeLabel": "04 x 60 mm"
+    },
+    {
+      "articleNo": "QPTL-Q1140R-U",
+      "model": "Q10",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 11.0,
+      "heightMm": 40.0,
+      "diameterMm": null,
+      "rsp": 36.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q10 (11 X 40mm)",
+      "sizeLabel": "11 x 40 mm"
+    },
+    {
+      "articleNo": "QPTL-Q1648R-U",
+      "model": "Q11",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 16.0,
+      "heightMm": 48.0,
+      "diameterMm": null,
+      "rsp": 43.4,
+      "description": "Xstamper Quix Pre-Inked Stamp Q11 (16 X 48mm)",
+      "sizeLabel": "16 x 48 mm"
+    },
+    {
+      "articleNo": "QPTL-Q1349R-U",
+      "model": "Q13",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 13.0,
+      "heightMm": 49.0,
+      "diameterMm": null,
+      "rsp": 41.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q13 (13 X 49mm)",
+      "sizeLabel": "13 x 49 mm"
+    },
+    {
+      "articleNo": "QPTL-Q1460R-U",
+      "model": "Q14",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 14.0,
+      "heightMm": 60.0,
+      "diameterMm": null,
+      "rsp": 41.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q14 (14 X 60mm)",
+      "sizeLabel": "14 x 60 mm"
+    },
+    {
+      "articleNo": "QPTL-Q2269R-U",
+      "model": "Q18",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 22.0,
+      "heightMm": 69.0,
+      "diameterMm": null,
+      "rsp": 70.0,
+      "description": "Xstamper Quix Pre-Inked Stamp Q18 (22 X 69mm)",
+      "sizeLabel": "22 x 69 mm"
+    },
+    {
+      "articleNo": "QPTL-Q2449R-U",
+      "model": "Q12",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 24.0,
+      "heightMm": 49.0,
+      "diameterMm": null,
+      "rsp": 70.0,
+      "description": "Xstamper Quix Pre-Inked Stamp Q12 (24 X 49mm)",
+      "sizeLabel": "24 x 49 mm"
+    },
+    {
+      "articleNo": "QPTL-Q3661R-U",
+      "model": "Q16",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 36.0,
+      "heightMm": 61.0,
+      "diameterMm": null,
+      "rsp": 76.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q16 (36 X 61mm)",
+      "sizeLabel": "36 x 61 mm"
+    },
+    {
+      "articleNo": "QPTL-Q2878R-U",
+      "model": "Q24",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 28.0,
+      "heightMm": 78.0,
+      "diameterMm": null,
+      "rsp": 76.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q24 (28 X 78mm)",
+      "sizeLabel": "28 x 78 mm"
+    },
+    {
+      "articleNo": "QPTL-Q1683R-U",
+      "model": "Q26",
+      "productGroup": "pre-inked",
+      "shape": "rect",
+      "widthMm": 16.0,
+      "heightMm": 83.0,
+      "diameterMm": null,
+      "rsp": 70.0,
+      "description": "Xstamper Quix Pre-Inked Stamp Q26 (16 X 83mm)",
+      "sizeLabel": "16 x 83 mm"
+    },
+    {
+      "articleNo": "QPTL-QE14R-U",
+      "model": "Q32",
+      "productGroup": "pre-inked",
+      "shape": "circle",
+      "widthMm": null,
+      "heightMm": null,
+      "diameterMm": 14.0,
+      "rsp": 36.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q32 (14mm diameter)",
+      "sizeLabel": "14 mm diameter"
+    },
+    {
+      "articleNo": "QPTL-QE20R-U",
+      "model": "Q34",
+      "productGroup": "pre-inked",
+      "shape": "circle",
+      "widthMm": null,
+      "heightMm": null,
+      "diameterMm": 20.0,
+      "rsp": 43.4,
+      "description": "Xstamper Quix Pre-Inked Stamp Q34 (20mm diameter)",
+      "sizeLabel": "20 mm diameter"
+    },
+    {
+      "articleNo": "QPTL-QE24R-U",
+      "model": "Q38",
+      "productGroup": "pre-inked",
+      "shape": "circle",
+      "widthMm": null,
+      "heightMm": null,
+      "diameterMm": 28.0,
+      "rsp": 51.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q38 (28mm diameter)",
+      "sizeLabel": "28 mm diameter"
+    },
+    {
+      "articleNo": "QPTL-QE38R-U",
+      "model": "Q53",
+      "productGroup": "pre-inked",
+      "shape": "circle",
+      "widthMm": null,
+      "heightMm": null,
+      "diameterMm": 38.0,
+      "rsp": 76.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q53 (38mm diameter)",
+      "sizeLabel": "38 mm diameter"
+    },
+    {
+      "articleNo": "QPTL-QE45R-U",
+      "model": "Q63",
+      "productGroup": "pre-inked",
+      "shape": "circle",
+      "widthMm": null,
+      "heightMm": null,
+      "diameterMm": 45.0,
+      "rsp": 86.7,
+      "description": "Xstamper Quix Pre-Inked Stamp Q63 (45mm diameter)",
+      "sizeLabel": "45 mm diameter"
+    }
+  ],
+  "accessories": [
+    {
+      "articleNo": "QPT-PG/1125",
+      "model": "Q04",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q04"
+      ],
+      "rsp": 13.4,
+      "description": "Xstamper Quix Rubber (Q04)"
+    },
+    {
+      "articleNo": "QPT-PG/0460",
+      "model": "Q05",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q05"
+      ],
+      "rsp": 13.4,
+      "description": "Xstamper Quix Rubber (Q05)"
+    },
+    {
+      "articleNo": "QPT-PG/1140",
+      "model": "Q10",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q10"
+      ],
+      "rsp": 13.4,
+      "description": "Xstamper Quix Rubber (Q10)"
+    },
+    {
+      "articleNo": "QPT-PG/1648",
+      "model": "Q11",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q11"
+      ],
+      "rsp": 15.0,
+      "description": "Xstamper Quix Rubber (Q11)"
+    },
+    {
+      "articleNo": "QPT-PG/1349",
+      "model": "Q13",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q13"
+      ],
+      "rsp": 15.0,
+      "description": "Xstamper Quix Rubber (Q13)"
+    },
+    {
+      "articleNo": "QPT-PG/1460",
+      "model": "Q14",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q14"
+      ],
+      "rsp": 21.7,
+      "description": "Xstamper Quix Rubber (Q14)"
+    },
+    {
+      "articleNo": "QPT-PG/2269",
+      "model": "Q18",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q18"
+      ],
+      "rsp": 25.0,
+      "description": "Xstamper Quix Rubber (Q18)"
+    },
+    {
+      "articleNo": "QPT-PG/2449",
+      "model": "Q12",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q12"
+      ],
+      "rsp": 25.0,
+      "description": "Xstamper Quix Rubber (Q12)"
+    },
+    {
+      "articleNo": "QPT-PG/3661",
+      "model": "Q16",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q16"
+      ],
+      "rsp": 26.7,
+      "description": "Xstamper Quix Rubber (Q16)"
+    },
+    {
+      "articleNo": "QPT-PG/2878",
+      "model": "Q24",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q24"
+      ],
+      "rsp": 26.7,
+      "description": "Xstamper Quix Rubber (Q24)"
+    },
+    {
+      "articleNo": "QPT-PG/1683",
+      "model": "Q26",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q26"
+      ],
+      "rsp": 25.0,
+      "description": "Xstamper Quix Rubber (Q26)"
+    },
+    {
+      "articleNo": "QPT-PG/E14",
+      "model": "Q32",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q32"
+      ],
+      "rsp": 13.4,
+      "description": "Xstamper Quix Rubber (Q32)"
+    },
+    {
+      "articleNo": "QPT-PG/E20",
+      "model": "Q34",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q34"
+      ],
+      "rsp": 15.0,
+      "description": "Xstamper Quix Rubber (Q34)"
+    },
+    {
+      "articleNo": "QPT-PG/E24",
+      "model": "Q38",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q38"
+      ],
+      "rsp": 20.0,
+      "description": "Xstamper Quix Rubber (Q38)"
+    },
+    {
+      "articleNo": "QPT-PG/E38",
+      "model": "Q53",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q53"
+      ],
+      "rsp": 26.7,
+      "description": "Xstamper Quix Rubber (Q53)"
+    },
+    {
+      "articleNo": "QPT-PG/E45",
+      "model": "Q63",
+      "productGroup": "rubber",
+      "linkedModels": [
+        "Q63"
+      ],
+      "rsp": 30.0,
+      "description": "Xstamper Quix Rubber (Q63)"
+    },
+    {
+      "articleNo": "QPTLR-10",
+      "model": "10ML",
+      "productGroup": "ink",
+      "linkedModels": "all",
+      "rsp": 19.4,
+      "description": "QPTLR-10 Xstamper Quix Ink 10ml"
+    },
+    {
+      "articleNo": "QPTLR-20",
+      "model": "20ML",
+      "productGroup": "ink",
+      "linkedModels": "all",
+      "rsp": 35.0,
+      "description": "QPTLR-20 Xstamper Quix Ink 20ml"
+    }
+  ]
+}

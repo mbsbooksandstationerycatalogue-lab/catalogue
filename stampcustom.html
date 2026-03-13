@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stamp Size Simulator</title>
+    <link rel="stylesheet" href="stampcustom.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy-block">
+          <p class="eyebrow">Xstamper Quix Catalog</p>
+          <h1>Stamp Size Simulator</h1>
+          <p class="hero-copy">
+            Preview stamp sizes on desktop or phone, place text on a transparent
+            stamp area, and export the layout with product specs.
+          </p>
+        </div>
+        <div class="hero-side">
+          <button id="viewCartButton" class="accent-button cart-jump-button" type="button">
+            🛒 View Cart
+            <span id="viewCartCount" class="cart-count-pill">0</span>
+          </button>
+          <div class="hero-stats" id="heroStats"></div>
+          <button id="headerBackToShopButton" class="accent-button cart-jump-button hidden" type="button">
+            Back To Shop
+          </button>
+        </div>
+      </header>
+
+      <main id="workspace" class="workspace">
+        <aside class="panel filters-panel">
+          <div class="panel-heading">
+            <h2>Find a Stamp</h2>
+            <p>Search by model, article no., size, or description.</p>
+          </div>
+
+          <div class="filter-product-photo">
+            <img
+              id="heroProductImage"
+              class="hero-product-image"
+              src="stampcustomdata/stamppreinkrec.webp"
+              alt="Selected product type preview"
+            />
+          </div>
+
+          <label class="field">
+            <span>Search</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Try Q04, 20 mm, Q53, 61..."
+            />
+          </label>
+
+          <div class="field">
+            <span>Product Type</span>
+            <div class="segmented-control" id="groupFilters">
+              <button class="active" data-group="pre-inked" type="button">Pre-Inked</button>
+              <button data-group="rubber" type="button">Rubber</button>
+              <button data-group="ink" type="button">Ink Bottle</button>
+            </div>
+          </div>
+
+          <div id="shapeField" class="field">
+            <span>Shape</span>
+            <div class="segmented-control" id="shapeFilters">
+              <button class="active" data-shape="rect" type="button">Rectangle</button>
+              <button data-shape="circle" type="button">Circle</button>
+            </div>
+          </div>
+
+          <div class="results-summary" id="resultsSummary"></div>
+          <div class="product-list" id="productList" aria-live="polite"></div>
+        </aside>
+
+        <section class="panel preview-panel">
+          <div class="panel-heading">
+            <h2>Live Preview</h2>
+            <p>Transparent stamp area with draggable text boxes.</p>
+          </div>
+
+          <div id="editorToolbar" class="preview-toolbar compact-toolbar">
+            <button id="addTextButton" class="accent-button toolbar-icon" type="button" title="Add text box">
+              T+
+            </button>
+            <label class="toolbar-field toolbar-text">
+              <span class="sr-only">Text</span>
+              <input id="textContentInput" type="text" placeholder="Edit selected text" />
+            </label>
+            <label class="toolbar-field toolbar-range">
+              <span class="sr-only">Font size</span>
+              <input id="fontSizeInput" type="range" min="8" max="42" step="1" />
+            </label>
+            <output id="fontSizeValue" class="range-value">18 px</output>
+            <label class="toolbar-toggle" title="Bold">
+              <input id="boldInput" type="checkbox" />
+              <span>B</span>
+            </label>
+            <div class="segmented-control small toolbar-align" id="alignControls" aria-label="Text alignment">
+              <button data-align="left" type="button" title="Align left">L</button>
+              <button data-align="center" type="button" title="Align center">C</button>
+              <button data-align="right" type="button" title="Align right">R</button>
+            </div>
+            <button id="removeTextButton" class="danger-button toolbar-icon" type="button" title="Remove selected text">
+              Del
+            </button>
+          </div>
+
+          <div id="textLayerList" class="text-layer-list compact-layers"></div>
+
+          <div class="preview-stage" id="previewStage">
+            <div class="preview-ruler">
+              <span id="previewScaleLabel">1 mm ≈ 3.78 px</span>
+            </div>
+            <div class="stamp-frame-wrap">
+              <div id="stampFrame" class="stamp-frame">
+                <div id="stampSurface" class="stamp-surface"></div>
+              </div>
+            </div>
+          </div>
+
+          <section id="calibrationCard" class="calibration-card">
+            <div class="editor-header">
+              <h3>Screen Calibration</h3>
+              <p>Measure the long side of the selected stamp with your ruler, then enter the measured mm.</p>
+            </div>
+            <div class="calibration-grid">
+              <div class="calibration-readout">
+                <span>Expected size</span>
+                <strong id="calibrationExpected">-</strong>
+              </div>
+              <label class="field">
+                <span>Your ruler measure (mm)</span>
+                <input id="calibrationMeasuredInput" type="number" min="1" step="0.1" placeholder="Example: 57" />
+              </label>
+            </div>
+            <div class="preview-toolbar">
+              <button id="applyCalibrationButton" type="button">Apply Calibration</button>
+              <button id="resetCalibrationButton" type="button">Reset</button>
+            </div>
+            <p class="calibration-note" id="calibrationStatus">Tip: For Q16, if expected is 61 mm and your ruler shows 57 mm, enter 57 and apply.</p>
+          </section>
+
+          <section id="accessoryBrowser" class="notes-card accessory-browser hidden">
+            <div class="panel-heading">
+              <h3>Accessories</h3>
+              <p>Select rubber dies or ink bottles and add them to cart.</p>
+            </div>
+            <div id="accessoryBrowserList" class="accessory-list"></div>
+          </section>
+
+          <div id="previewFooterToolbar" class="preview-toolbar preview-footer-toolbar">
+            <button id="addStampToCartButton" class="accent-button" type="button">Add Stamp To Cart</button>
+          </div>
+
+        </section>
+
+        <aside class="panel spec-panel">
+          <div class="panel-heading">
+            <h2>Stamp Specs</h2>
+            <p>Retail price and product reference from the Excel list.</p>
+          </div>
+
+          <div id="specCard" class="spec-card"></div>
+
+          <section class="notes-card">
+            <h3>How size simulation works</h3>
+            <p>
+              The preview uses CSS millimeter units converted to browser pixels,
+              then scales down only when the screen is too small. Relative size
+              differences between products stay consistent.
+            </p>
+          </section>
+        </aside>
+      </main>
+
+      <section id="orderSection" class="order-section hidden">
+        <div class="panel order-shell">
+          <div class="order-section-header">
+            <div>
+              <p class="eyebrow">Order Desk</p>
+              <h2>Cart And Customer Details</h2>
+              <p class="hero-copy">Review the cart, fill in customer details, then generate the order HTML file.</p>
+            </div>
+            <button id="backToShopButton" class="hidden" type="button">Back To Shop</button>
+          </div>
+          <section id="orderCard" class="notes-card cart-card">
+            <div class="panel-heading">
+              <h3>Cart</h3>
+              <p>Stored in local storage so the cart stays on this device.</p>
+            </div>
+            <div class="preview-toolbar cart-toolbar">
+              <button id="clearCartButton" class="danger-button" type="button">Clear All</button>
+            </div>
+            <div id="cartSummary" class="cart-summary"></div>
+            <div id="cartList" class="cart-list"></div>
+            <div class="panel-heading customer-inline-heading">
+              <h3>Customer Details</h3>
+              <p>Fill in customer information before sending the order file.</p>
+            </div>
+            <div class="order-form">
+              <label class="field">
+                <span>Customer Name</span>
+                <input id="customerNameInput" type="text" placeholder="Customer name" />
+              </label>
+              <label class="field">
+                <span>Address</span>
+                <textarea id="customerAddressInput" rows="3" placeholder="Customer address"></textarea>
+              </label>
+              <label class="field">
+                <span>Phone No.</span>
+                <input id="customerPhoneInput" type="text" placeholder="Phone number" />
+              </label>
+            </div>
+            <p class="calibration-note" id="orderStatus">Order file will include customer info, cart items, and stamp design preview.</p>
+            <div class="preview-toolbar preview-footer-toolbar">
+              <button id="sendOrderButton" class="accent-button" type="button">Send Order</button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <template id="emptyStateTemplate">
+      <div class="empty-state">
+        <h3>No products found</h3>
+        <p>Try a different search term or switch the product filters.</p>
+      </div>
+    </template>
+
+    <div id="toast" class="toast hidden" aria-live="polite"></div>
+
+    <script src="stampcustomdata/stamps-data.js"></script>
+    <script src="stampcustom.js"></script>
+  </body>
+</html>
