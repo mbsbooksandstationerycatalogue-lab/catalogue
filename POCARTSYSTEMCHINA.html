@@ -271,7 +271,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getFirestore, collection, collectionGroup, doc, setDoc, deleteDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  import { getFirestore, collection, collectionGroup, doc, setDoc, deleteDoc, onSnapshot, serverTimestamp, getDocsFromServer } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAeC3ho9NYPRO8cigACTC-QiWcLlfDVuqE",
@@ -294,8 +294,7 @@
       deleteDoc: deleteDoc,
       onSnapshot: onSnapshot,
       serverTimestamp: serverTimestamp,
-      query: query,
-      orderBy: orderBy
+      getDocsFromServer: getDocsFromServer
     };
     return window.firebaseCartBridge;
   })().catch(function(error) {
@@ -420,33 +419,20 @@ async function reloadFirebaseCartSnapshotOnce() {
   const bridge = getFirebaseBridge() || await waitForFirebaseBridge();
   if (!bridge) return;
   const cartsRef = bridge.collectionGroup(bridge.db, 'carts');
-  await new Promise(function(resolve, reject) {
-    let unsubscribe = null;
-    unsubscribe = bridge.onSnapshot(
-      cartsRef,
-      function(snapshot) {
-        const remoteCarts = snapshot.docs.map(function(row) {
-          return normalizeFirebaseCart(row.data());
-        }).sort(function(a, b) {
-          return String(a.createdAt || '').localeCompare(String(b.createdAt || ''));
-        });
-        state.suppressFirebaseWrites = true;
-        state.tempCarts = remoteCarts;
-        if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) {
-          state.activeTempCartNumber = state.tempCarts[0] ? state.tempCarts[0].tempCartNumber : '';
-        }
-        persistState();
-        renderCart();
-        state.suppressFirebaseWrites = false;
-        if (unsubscribe) unsubscribe();
-        resolve();
-      },
-      function(error) {
-        if (unsubscribe) unsubscribe();
-        reject(error);
-      }
-    );
+  const snapshot = await bridge.getDocsFromServer(cartsRef);
+  const remoteCarts = snapshot.docs.map(function(row) {
+    return normalizeFirebaseCart(row.data());
+  }).sort(function(a, b) {
+    return String(a.createdAt || '').localeCompare(String(b.createdAt || ''));
   });
+  state.suppressFirebaseWrites = true;
+  state.tempCarts = remoteCarts;
+  if (!state.tempCarts.some(function(cart) { return cart.tempCartNumber === state.activeTempCartNumber; })) {
+    state.activeTempCartNumber = state.tempCarts[0] ? state.tempCarts[0].tempCartNumber : '';
+  }
+  persistState();
+  renderCart();
+  state.suppressFirebaseWrites = false;
 }
 async function syncTempCartToFirebase(cart) {
   if (state.suppressFirebaseWrites) return;
