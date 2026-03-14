@@ -13,6 +13,7 @@
     .app-grid{display:block;margin-top:14px}.side{padding:10px;height:fit-content;margin-bottom:14px;background:#efe1d1;border-color:rgba(154,107,74,.18)}.side .nav{display:flex;gap:10px;flex-wrap:wrap}.side .nav-link{flex:1 1 180px;text-align:center;border-radius:12px;color:#6f4e37;font-weight:700;background:#e8d3bf}.side .nav-link.active{background:linear-gradient(180deg,#c69c72 0%,#9a6b4a 100%);color:#fff}
     .main{padding:18px}.section-title{margin:0;font-size:18px;font-weight:800}.section-desc{margin-top:6px;color:var(--muted);font-size:13px}.surface{border:1px solid var(--border);border-radius:14px;padding:14px;background:#fbfdff}.toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:#fff}
     .catalogue-list{display:grid;gap:12px}.catalogue-card{display:grid;grid-template-columns:120px 1fr;align-items:stretch;border:1px solid #d8dee6;border-radius:16px;overflow:hidden;background:#f2f4f7;box-shadow:0 8px 16px rgba(15,23,42,.04)}.catalogue-photo{height:100%;min-height:120px;background:#e9eef3;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;border-right:1px solid #d8dee6}.catalogue-photo img{width:100%;height:100%;object-fit:cover}.catalogue-photo .placeholder{font-weight:700;color:var(--muted)}.catalogue-body{padding:14px;display:flex;flex-direction:column;justify-content:center;background:#f6f7f9}.catalogue-head{min-width:0;flex:1 1 auto}.catalogue-item-name,.catalogue-line .line-title{display:block;white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.35}.catalogue-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--muted);padding-top:10px;border-top:1px solid #dde3ea}.catalogue-line-list{border:1px solid #d8dee6;border-radius:14px;overflow:hidden;background:#f3f5f7}.catalogue-line{display:grid;grid-template-columns:1.3fr 1fr 1fr .7fr .7fr auto;gap:0;align-items:stretch;padding:0;border-top:1px solid #d8dee6;background:#f6f7f9}.catalogue-line:first-child{border-top:0}.catalogue-line-head{background:#e8edf3;font-size:12px;font-weight:700;color:var(--muted)}.catalogue-line .line-cell{min-width:0;padding:12px 14px;border-left:1px solid #d8dee6;display:flex;align-items:center}.catalogue-line .line-cell:first-child{border-left:0}.catalogue-line .line-sub{color:var(--muted);font-size:12px}
+    .order-qty-input{font-weight:800;color:#b91c1c;font-size:calc(1rem + 1px)}
     .iframe-preview{width:100%;height:min(75vh,720px);border:0;border-radius:12px;background:#f8fafc}
     .mono{font-family:Consolas,"Courier New",monospace}.preview-wrap{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.preview-tile{position:relative;width:160px;height:160px;border-radius:12px;border:1px solid var(--border);overflow:hidden;background:#f8fafc}.preview-tile img{width:100%;height:100%;object-fit:cover}.preview-tile button{position:absolute;top:8px;right:8px}
     .crop-stage{max-width:min(92vw,540px);margin:0 auto}.crop-canvas-wrap{width:100%;display:flex;justify-content:center;padding:12px;background:#f8fafc;border:1px dashed var(--border);border-radius:12px}.crop-canvas-wrap canvas{max-width:100%;border-radius:8px}
@@ -77,7 +78,7 @@
               <div>Item Name</div>
               <div>Price</div>
               <div>UOM</div>
-              <div>Qty</div>
+              <div>Carton Qty</div>
               <div>Active</div>
               <div>Photo</div>
               <div>Action</div>
@@ -111,6 +112,19 @@
           <div class="mt-3 d-flex flex-wrap" style="gap:8px;">
             <button type="button" class="btn btn-sm btn-secondary" id="catalogueCardViewBtn" onclick="setCatalogueViewMode('card')">Card View</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" id="catalogueListViewBtn" onclick="setCatalogueViewMode('list')">List View</button>
+          </div>
+          <div class="surface mt-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap" style="gap:8px;">
+              <div class="d-flex flex-wrap" style="gap:8px;">
+                <button type="button" class="btn btn-sm btn-secondary" id="catalogueModeNormalBtn" onclick="setCatalogueMode('normal')">Normal Mode</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="catalogueModeMultiBtn" onclick="setCatalogueMode('multi')">Multi Select Mode</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="catalogueModeCheckBtn" onclick="setCatalogueMode('check-stock')">Check Stock Mode</button>
+              </div>
+              <div class="d-flex align-items-center flex-wrap" style="gap:8px;">
+                <div class="small-muted" id="catalogueModeHint">Normal mode: add one item directly to cart.</div>
+                <button type="button" class="btn btn-sm btn-primary" id="catalogueAddSelectedBtn" onclick="addSelectedToCart()" style="display:none;">Add Selected To Cart</button>
+              </div>
+            </div>
           </div>
           <div class="surface mt-3">
             <div class="d-flex flex-wrap" style="gap:8px;">
@@ -170,8 +184,8 @@
           </div>
           <div class="table-wrap mt-3">
                 <table class="table table-sm mb-0">
-                  <thead class="thead-light"><tr><th>Photo</th><th>Barcode</th><th>Item</th><th class="text-right">Price</th><th>UOM</th><th class="text-right">Check Stock</th><th class="text-right">Order Qty</th><th>Remark</th><th class="text-right">Amount</th><th class="text-right">Action</th></tr></thead>
-                  <tbody id="cartTbody"><tr><td colspan="10" class="text-center small-muted p-3">Cart is empty.</td></tr></tbody>
+                  <thead class="thead-light"><tr><th>Photo</th><th>Barcode</th><th>Item</th><th class="text-right">Price</th><th>UOM</th><th class="text-right">Carton Qty</th><th class="text-right">Check Stock</th><th class="text-right">Order Qty</th><th>Remark</th><th class="text-right">Amount</th><th class="text-right">Action</th></tr></thead>
+                  <tbody id="cartTbody"><tr><td colspan="11" class="text-center small-muted p-3">Cart is empty.</td></tr></tbody>
                 </table>
           </div>
           <div class="surface mt-3">
@@ -295,7 +309,7 @@ const STORAGE_KEYS = { settings: 'china_po_settings_v1', catalogue: 'china_po_ca
 const DEFAULT_SETTINGS = { companyName: 'CHINA PO SYSTEM', whatsappLink: 'https://wa.me/', whatsappTemplate: 'New order to {vendor} - {csvUrl}', scriptUrl: 'https://script.google.com/macros/s/AKfycbzDciZ8oHiwEZuSpGAPeFIF0JdcPl1Fq7kqeY5UtEUHaxu__wx2yL59BsVntlq-Wmez/exec', poFolderId: '1uO-botT3fpBqWSh5AYfI9vKUB2-VSkHB', cataloguePhotoFolderId: '19EPNSdokTrz6qybvlQyw-HdtX7E1ZcuD' };
 const DASHBOARD_PAGE_SIZE = 20;
 const APPROVE_PASSWORD = 'albert123';
-const state = { settings: { ...DEFAULT_SETTINGS }, catalogue: [], poHeaders: [], completedDocuments: [], tempCarts: [], activeTempCartNumber: '', itemMasterRows: [], currentPoHeader: null, currentPoItems: [], cataloguePage: 1, cataloguePageSize: 20, catalogueViewMode: 'card', catalogueSortKey: 'itemName', catalogueSortDir: 'asc', dashboardPage: 1, dashboardSortKey: 'timestamp', dashboardSortDir: 'desc', firebaseReady: false, firebaseUnsubscribe: null, suppressFirebaseWrites: false, cartDirty: false, cartEditorOpen: false, generatingPoNumber: '' };
+const state = { settings: { ...DEFAULT_SETTINGS }, catalogue: [], poHeaders: [], completedDocuments: [], tempCarts: [], activeTempCartNumber: '', itemMasterRows: [], currentPoHeader: null, currentPoItems: [], cataloguePage: 1, cataloguePageSize: 20, catalogueViewMode: 'card', catalogueMode: 'normal', selectedCatalogueBarcodes: [], catalogueSortKey: 'itemName', catalogueSortDir: 'asc', dashboardPage: 1, dashboardSortKey: 'timestamp', dashboardSortDir: 'desc', firebaseReady: false, firebaseUnsubscribe: null, suppressFirebaseWrites: false, cartDirty: false, cartEditorOpen: false, generatingPoNumber: '' };
 
 function setStatus(text) { document.getElementById('globalStatus').textContent = text; }
 function showLoading(show, text) {
@@ -352,8 +366,9 @@ function normalizeFirebaseCart(payload) {
         itemName: String(item.itemName || ''),
         price: Number(item.price || 0),
         uom: String(item.uom || ''),
+        defaultQty: Math.max(1, Number(item.defaultQty || 1) || 1),
         orderQty: Math.max(1, Number(item.orderQty || 1) || 1),
-        checkedQty: Number(item.checkedQty != null ? item.checkedQty : item.orderQty || 1),
+        checkedQty: String(item.checkedQty != null ? item.checkedQty : ''),
         confirmedQty: Number(item.confirmedQty || 0),
         stockNote: String(item.stockNote || ''),
         photoFileId: String(item.photoFileId || ''),
@@ -383,9 +398,11 @@ async function startFirebaseCartSync() {
     return;
   }
   const cartsRef = bridge.collectionGroup(bridge.db, 'carts');
-  state.firebaseUnsubscribe = bridge.onSnapshot(bridge.query(cartsRef, bridge.orderBy('createdAt', 'asc')), function(snapshot) {
+  state.firebaseUnsubscribe = bridge.onSnapshot(cartsRef, function(snapshot) {
     const remoteCarts = snapshot.docs.map(function(row) {
       return normalizeFirebaseCart(row.data());
+    }).sort(function(a, b) {
+      return String(a.createdAt || '').localeCompare(String(b.createdAt || ''));
     });
     state.suppressFirebaseWrites = true;
     state.tempCarts = remoteCarts;
@@ -406,10 +423,12 @@ async function reloadFirebaseCartSnapshotOnce() {
   await new Promise(function(resolve, reject) {
     let unsubscribe = null;
     unsubscribe = bridge.onSnapshot(
-      bridge.query(cartsRef, bridge.orderBy('createdAt', 'asc')),
+      cartsRef,
       function(snapshot) {
         const remoteCarts = snapshot.docs.map(function(row) {
           return normalizeFirebaseCart(row.data());
+        }).sort(function(a, b) {
+          return String(a.createdAt || '').localeCompare(String(b.createdAt || ''));
         });
         state.suppressFirebaseWrites = true;
         state.tempCarts = remoteCarts;
@@ -508,6 +527,51 @@ function setCatalogueViewMode(mode) {
   state.catalogueViewMode = mode === 'list' ? 'list' : 'card';
   renderCatalogue();
 }
+function setCatalogueMode(mode) {
+  state.catalogueMode = mode === 'multi' || mode === 'check-stock' ? mode : 'normal';
+  if (state.catalogueMode !== 'multi') state.selectedCatalogueBarcodes = [];
+  renderCatalogue();
+}
+function updateCatalogueModeButtons() {
+  const modes = [
+    { key: 'normal', id: 'catalogueModeNormalBtn' },
+    { key: 'multi', id: 'catalogueModeMultiBtn' },
+    { key: 'check-stock', id: 'catalogueModeCheckBtn' }
+  ];
+  modes.forEach(function(mode) {
+    const el = document.getElementById(mode.id);
+    if (!el) return;
+    el.className = state.catalogueMode === mode.key ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-outline-secondary';
+  });
+  const hint = document.getElementById('catalogueModeHint');
+  const addSelectedBtn = document.getElementById('catalogueAddSelectedBtn');
+  if (hint) {
+    hint.textContent =
+      state.catalogueMode === 'multi' ? ('Multi select mode: tick items and add all selected. Selected ' + state.selectedCatalogueBarcodes.length + ' item(s).') :
+      state.catalogueMode === 'check-stock' ? 'Check stock mode: enter check stock text first, then add item to cart.' :
+      'Normal mode: add one item directly to cart.';
+  }
+  if (addSelectedBtn) addSelectedBtn.style.display = state.catalogueMode === 'multi' ? '' : 'none';
+}
+function isCatalogueMultiMode() {
+  return state.catalogueMode === 'multi';
+}
+function isCatalogueCheckStockMode() {
+  return state.catalogueMode === 'check-stock';
+}
+function isCatalogueSelected(barcode) {
+  return state.selectedCatalogueBarcodes.indexOf(String(barcode || '').trim()) >= 0;
+}
+function toggleCatalogueSelection(barcode, checked) {
+  const key = String(barcode || '').trim();
+  if (!key) return;
+  if (checked) {
+    if (!isCatalogueSelected(key)) state.selectedCatalogueBarcodes.push(key);
+  } else {
+    state.selectedCatalogueBarcodes = state.selectedCatalogueBarcodes.filter(function(item) { return item !== key; });
+  }
+  updateCatalogueModeButtons();
+}
 function updateCatalogueViewButtons() {
   const cardBtn = document.getElementById('catalogueCardViewBtn');
   const listBtn = document.getElementById('catalogueListViewBtn');
@@ -564,9 +628,7 @@ async function boot() {
     hydrateLocalCache();
     resetCatalogueForm();
     applySettings();
-    await loadSettings();
     resetCataloguePagination();
-    await refreshDashboard();
     setTodayDefault();
     await startFirebaseCartSync();
     renderCart();
@@ -580,7 +642,6 @@ async function boot() {
     showLoading(false);
   }
 }
-async function loadSettings() { const result = await apiCall('getSettings', {}); state.settings = { ...DEFAULT_SETTINGS, ...(result.settings || {}) }; persistState(); applySettings(); }
 async function refreshCatalogueFromRemote() {
   showLoading(true, 'Refreshing catalogue...');
   try {
@@ -610,22 +671,33 @@ function renderCatalogue() {
   const pageRows = rows.slice(startIndex, startIndex + state.cataloguePageSize);
   root.className = (state.catalogueViewMode === 'list' ? 'catalogue-line-list' : 'catalogue-list') + ' mt-3';
   updateCatalogueViewButtons();
+  updateCatalogueModeButtons();
   updateCatalogueSortIndicators();
   if (pageSizeSelect) pageSizeSelect.value = String(state.cataloguePageSize);
   if (pageLabel) pageLabel.textContent = 'Page ' + String(state.cataloguePage) + ' / ' + String(totalPages);
   if (countLabel) countLabel.textContent = 'Showing ' + String(pageRows.length) + ' of ' + String(rows.length);
   if (!rows.length) { root.innerHTML = '<div class="small-muted">No catalogue items found.</div>'; return; }
   if (state.catalogueViewMode === 'list') {
-    root.innerHTML = '<div class="catalogue-line catalogue-line-head"><div class="line-cell">Item</div><div class="line-cell">Barcode</div><div class="line-cell">Vendor</div><div class="line-cell text-right">Price</div><div class="line-cell">UOM</div><div class="line-cell text-right">Action</div></div>' + pageRows.map(function(item) {
-      return '<div class="catalogue-line"><div class="line-cell"><div class="line-title">' + escapeHtml(item.itemName || '') + '</div><div class="line-sub">Default Qty: ' + escapeHtml(String(item.defaultQty || 1)) + '</div></div><div class="line-cell mono">' + escapeHtml(item.barcode || '-') + '</div><div class="line-cell">' + escapeHtml(item.vendor || '-') + '</div><div class="line-cell text-right">' + formatMoney(item.price) + '</div><div class="line-cell">' + escapeHtml(item.uom || '-') + '</div><div class="line-cell text-right"><button class="btn btn-sm btn-primary mr-1" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">Add To Cart</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div>';
+    const selectHead = isCatalogueMultiMode() ? '<div class="line-cell text-center">Tick</div>' : '';
+    root.innerHTML = '<div class="catalogue-line catalogue-line-head" style="grid-template-columns:' + (isCatalogueMultiMode() ? '.45fr ' : '') + '1.3fr 1fr 1fr .7fr .7fr auto;">' + selectHead + '<div class="line-cell">Item</div><div class="line-cell">Barcode</div><div class="line-cell">Vendor</div><div class="line-cell text-right">Price</div><div class="line-cell">UOM</div><div class="line-cell text-right">Action</div></div>' + pageRows.map(function(item) {
+      const selectCell = isCatalogueMultiMode() ? '<div class="line-cell text-center"><input type="checkbox" ' + (isCatalogueSelected(item.barcode) ? 'checked ' : '') + 'onchange="toggleCatalogueSelection(\'' + escapeJs(item.barcode || '') + '\', this.checked)"></div>' : '';
+      const addLabel = isCatalogueCheckStockMode() ? 'Add With Stock' : 'Add To Cart';
+      return '<div class="catalogue-line" style="grid-template-columns:' + (isCatalogueMultiMode() ? '.45fr ' : '') + '1.3fr 1fr 1fr .7fr .7fr auto;">' + selectCell + '<div class="line-cell"><div class="line-title">' + escapeHtml(item.itemName || '') + '</div><div class="line-sub">Carton Qty: ' + escapeHtml(String(item.defaultQty || 1)) + '</div></div><div class="line-cell mono">' + escapeHtml(item.barcode || '-') + '</div><div class="line-cell">' + escapeHtml(item.vendor || '-') + '</div><div class="line-cell text-right">' + formatMoney(item.price) + '</div><div class="line-cell">' + escapeHtml(item.uom || '-') + '</div><div class="line-cell text-right"><button class="btn btn-sm btn-primary mr-1" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">' + addLabel + '</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div>';
     }).join('');
     return;
   }
   root.innerHTML = pageRows.map(function(item) {
     const thumbUrl = buildPhotoThumbUrl(item.photoFileId, item.photoUrl);
     const photo = thumbUrl ? '<img src="' + escapeAttr(thumbUrl) + '" alt="' + escapeAttr(item.itemName) + '" loading="lazy">' : '<div class="placeholder">No Photo</div>';
-    return '<div class="catalogue-card"><div class="catalogue-photo" onclick="openCataloguePhotoPreview(\'' + escapeJs(item.itemName || 'Photo Preview') + '\', \'' + escapeJs(item.photoFileId || '') + '\', \'' + escapeJs(item.photoUrl || '') + '\')">' + photo + '</div><div class="catalogue-body"><div class="d-flex justify-content-between align-items-start" style="gap:8px;"><div class="catalogue-head"><div><b class="catalogue-item-name">' + escapeHtml(item.itemName) + '</b></div><div class="small-muted mono">' + escapeHtml(item.barcode || '-') + '</div><div class="small-muted">Vendor: <b>' + escapeHtml(item.vendor || '-') + '</b></div></div><span class="pill">' + formatMoney(item.price) + '</span></div><div class="catalogue-meta mt-2"><div>UOM: <b>' + escapeHtml(item.uom || '-') + '</b></div><div>Default Qty: <b>' + escapeHtml(String(item.defaultQty || 1)) + '</b></div></div><div class="mt-3 d-flex flex-wrap" style="gap:8px;"><button class="btn btn-sm btn-primary" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">Add To Cart</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div></div>';
+    const selector = isCatalogueMultiMode() ? '<div class="mb-2"><label class="small-muted" style="display:flex;align-items:center;gap:6px;"><input type="checkbox" ' + (isCatalogueSelected(item.barcode) ? 'checked ' : '') + 'onchange="toggleCatalogueSelection(\'' + escapeJs(item.barcode || '') + '\', this.checked)"> Select</label></div>' : '';
+    const addLabel = isCatalogueCheckStockMode() ? 'Add With Stock' : 'Add To Cart';
+    return '<div class="catalogue-card"><div class="catalogue-photo" onclick="openCataloguePhotoPreview(\'' + escapeJs(item.itemName || 'Photo Preview') + '\', \'' + escapeJs(item.photoFileId || '') + '\', \'' + escapeJs(item.photoUrl || '') + '\')">' + photo + '</div><div class="catalogue-body">' + selector + '<div class="d-flex justify-content-between align-items-start" style="gap:8px;"><div class="catalogue-head"><div><b class="catalogue-item-name">' + escapeHtml(item.itemName) + '</b></div><div class="small-muted mono">' + escapeHtml(item.barcode || '-') + '</div><div class="small-muted">Vendor: <b>' + escapeHtml(item.vendor || '-') + '</b></div></div><span class="pill">' + formatMoney(item.price) + '</span></div><div class="catalogue-meta mt-2"><div>UOM: <b>' + escapeHtml(item.uom || '-') + '</b></div><div>Carton Qty: <b>' + escapeHtml(String(item.defaultQty || 1)) + '</b></div></div><div class="mt-3 d-flex flex-wrap" style="gap:8px;"><button class="btn btn-sm btn-primary" type="button" onclick="addToCart(\'' + escapeJs(item.barcode || '') + '\')">' + addLabel + '</button><button class="btn btn-sm btn-outline-secondary" type="button" onclick="editCatalogueItem(\'' + escapeJs(item.barcode || '') + '\')">Edit</button></div></div></div>';
   }).join('');
+}
+function promptCheckStockValue(itemName, currentValue) {
+  const raw = window.prompt('Fill check stock value for ' + String(itemName || 'item') + ':', String(currentValue != null ? currentValue : 0));
+  if (raw == null) return null;
+  return String(raw || '').trim();
 }
 function extractDriveFileId(photoUrl) {
   const text = String(photoUrl || '');
@@ -904,27 +976,56 @@ function ensureTempCartForVendor(vendor) {
   state.activeTempCartNumber = cart.tempCartNumber;
   return cart;
 }
-async function addToCart(itemBarcode) {
+async function addToCart(itemBarcode, options) {
+  const opts = options || {};
   const barcode = String(itemBarcode || '').trim();
   if (!barcode) { alert('Item barcode is required before adding to cart.'); return; }
   const item = state.catalogue.find(function(row) { return String(row.barcode || '').trim() === barcode; });
   if (!item) return;
   const cart = ensureTempCartForVendor(item.vendor || 'Unknown Vendor');
   if (!cart) return;
+  const checkStockValue = opts.forceCheckedQty != null ? String(opts.forceCheckedQty || '') : (isCatalogueCheckStockMode() ? promptCheckStockValue(item.itemName, '') : '');
+  if (checkStockValue == null) return;
   const existing = cart.items.find(function(row) { return String(row.barcode || '').trim() === barcode; });
-  if (existing) existing.orderQty = Number(existing.orderQty || 0) + Number(item.defaultQty || 1);
-  else cart.items.push({ itemId: item.itemId, vendor: item.vendor || '', barcode: item.barcode, itemName: item.itemName, price: Number(item.price || 0), uom: item.uom, orderQty: Number(item.defaultQty || 1), checkedQty: Number(item.defaultQty || 1), confirmedQty: 0, stockNote: '', photoFileId: item.photoFileId || '', photoUrl: item.photoUrl || '' });
+  if (existing) {
+    existing.orderQty = Number(existing.orderQty || 0) + 1;
+    if (opts.forceCheckedQty != null || isCatalogueCheckStockMode()) existing.checkedQty = String(checkStockValue || '');
+  } else {
+    cart.items.push({ itemId: item.itemId, vendor: item.vendor || '', barcode: item.barcode, itemName: item.itemName, price: Number(item.price || 0), uom: item.uom, defaultQty: Math.max(1, Number(item.defaultQty || 1) || 1), orderQty: 1, checkedQty: String(checkStockValue || ''), confirmedQty: 0, stockNote: '', photoFileId: item.photoFileId || '', photoUrl: item.photoUrl || '' });
+  }
   persistState();
   renderCart();
   try {
     await syncTempCartToFirebase(cart);
+    if (!opts.skipReload) await reloadFirebaseCartSnapshotOnce();
     markCartDirty(false);
   } catch (error) {
     console.error('Unable to sync cart add.', error);
     markCartDirty(true);
   }
   renderCart();
-  alert((item.itemName || 'Item') + ' added to cart.');
+  if (!opts.silent) alert((item.itemName || 'Item') + ' added to cart.');
+}
+async function addSelectedToCart() {
+  if (!isCatalogueMultiMode()) return;
+  if (!state.selectedCatalogueBarcodes.length) {
+    alert('Select at least one item first.');
+    return;
+  }
+  showLoading(true, 'Adding selected items to cart...');
+  try {
+    for (let i = 0; i < state.selectedCatalogueBarcodes.length; i += 1) {
+      await addToCart(state.selectedCatalogueBarcodes[i], { silent: true, skipReload: true, forceCheckedQty: '' });
+    }
+    await reloadFirebaseCartSnapshotOnce();
+    state.selectedCatalogueBarcodes = [];
+    renderCatalogue();
+    alert('Selected items added to cart.');
+  } catch (error) {
+    alert(error.message || 'Unable to add selected items to cart.');
+  } finally {
+    showLoading(false);
+  }
 }
 function renderCart() {
   renderTempCartOptions();
@@ -934,13 +1035,14 @@ function renderCart() {
   const tbody = document.getElementById('cartTbody');
   const remarkInput = document.getElementById('poNotes');
   if (remarkInput) remarkInput.value = cart ? String(cart.notes || '') : '';
-  if (!cart || !cart.items.length) { tbody.innerHTML = '<tr><td colspan="10" class="text-center small-muted p-3">Cart is empty.</td></tr>'; updateCartSummary(); return; }
+  if (!cart || !cart.items.length) { tbody.innerHTML = '<tr><td colspan="11" class="text-center small-muted p-3">Cart is empty.</td></tr>'; updateCartSummary(); return; }
   tbody.innerHTML = cart.items.map(function(item, idx) {
-    const amount = Number(item.orderQty || 0) * Number(item.price || 0);
-    const checkedQty = item.checkedQty != null ? item.checkedQty : item.orderQty || 0;
+    const defaultQty = Math.max(1, Number(item.defaultQty || 1) || 1);
+    const amount = defaultQty * Number(item.orderQty || 0) * Number(item.price || 0);
+    const checkedQty = item.checkedQty != null ? item.checkedQty : '';
     const thumbUrl = buildPhotoThumbUrl(item.photoFileId, item.photoUrl);
     const photo = thumbUrl ? '<img src="' + escapeAttr(thumbUrl) + '" alt="' + escapeAttr(item.itemName || 'Photo') + '" loading="lazy" style="width:52px;height:52px;object-fit:cover;border-radius:10px;cursor:pointer;" onclick="openCataloguePhotoPreview(\'' + escapeJs(item.itemName || 'Photo Preview') + '\', \'' + escapeJs(item.photoFileId || '') + '\', \'' + escapeJs(item.photoUrl || '') + '\')">' : '<div class="small-muted">-</div>';
-    return '<tr><td>' + photo + '</td><td class="mono">' + escapeHtml(item.barcode || '-') + '</td><td>' + escapeHtml(item.itemName || '') + '</td><td class="text-right">' + formatMoney(item.price) + '</td><td>' + escapeHtml(item.uom || '') + '</td><td class="text-right"><input type="number" class="form-control form-control-sm text-right" min="0" step="1" value="' + escapeAttr(String(checkedQty)) + '" onchange="updateCartCheckedQty(' + idx + ', this.value)"></td><td class="text-right"><input type="number" class="form-control form-control-sm text-right" min="1" step="1" value="' + escapeAttr(String(item.orderQty || 1)) + '" onchange="updateCartQty(' + idx + ', this.value)"></td><td><input type="text" class="form-control form-control-sm" value="' + escapeAttr(item.stockNote || '') + '" onchange="updateCartItemRemark(' + idx + ', this.value)" placeholder="Item remark"></td><td class="text-right">' + formatMoney(amount) + '</td><td class="text-right"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCartItem(' + idx + ')">Remove</button></td></tr>';
+    return '<tr><td>' + photo + '</td><td class="mono">' + escapeHtml(item.barcode || '-') + '</td><td>' + escapeHtml(item.itemName || '') + '</td><td class="text-right">' + formatMoney(item.price) + '</td><td>' + escapeHtml(item.uom || '') + '</td><td class="text-right"><input type="number" class="form-control form-control-sm text-right" value="' + escapeAttr(String(defaultQty)) + '" readonly></td><td class="text-right"><input type="text" class="form-control form-control-sm text-right" value="' + escapeAttr(String(checkedQty)) + '" onchange="updateCartCheckedQty(' + idx + ', this.value)"></td><td class="text-right"><input type="number" class="form-control form-control-sm text-right order-qty-input" min="1" step="1" value="' + escapeAttr(String(item.orderQty || 1)) + '" onchange="updateCartQty(' + idx + ', this.value)"></td><td><input type="text" class="form-control form-control-sm" value="' + escapeAttr(item.stockNote || '') + '" onchange="updateCartItemRemark(' + idx + ', this.value)" placeholder="Item remark"></td><td class="text-right">' + formatMoney(amount) + '</td><td class="text-right"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCartItem(' + idx + ')">Remove</button></td></tr>';
   }).join('');
   updateCartSummary();
 }
@@ -1010,8 +1112,8 @@ function renderTempCartGroups() {
 function summarizeCart(cart) {
   return (cart && cart.items || []).reduce(function(acc, item) {
     acc.count += 1;
-    acc.qty += Number(item.orderQty || 0);
-    acc.amount += Number(item.orderQty || 0) * Number(item.price || 0);
+    acc.qty += Math.max(1, Number(item.defaultQty || 1) || 1) * Number(item.orderQty || 0);
+    acc.amount += Math.max(1, Number(item.defaultQty || 1) || 1) * Number(item.orderQty || 0) * Number(item.price || 0);
     return acc;
   }, { count: 0, qty: 0, amount: 0 });
 }
@@ -1030,7 +1132,7 @@ function buildPoPayloadFromCart(cart, status) {
     notes: poNotesInput ? poNotesInput.value.trim() || (cart && cart.notes ? cart.notes : '') : (cart && cart.notes ? cart.notes : ''),
     status: status,
     items: (cart ? cart.items : []).map(function(item) {
-      return { itemId: item.itemId, barcode: item.barcode, itemName: item.itemName, orderQty: Number(item.orderQty || 0), checkedQty: Number(item.checkedQty != null ? item.checkedQty : item.orderQty || 0), confirmedQty: Number(item.confirmedQty || 0), price: Number(item.price || 0), uom: item.uom, stockNote: item.stockNote || '' };
+      return { itemId: item.itemId, barcode: item.barcode, itemName: item.itemName, defaultQty: Math.max(1, Number(item.defaultQty || 1) || 1), orderQty: Number(item.orderQty || 0), checkedQty: String(item.checkedQty != null ? item.checkedQty : ''), confirmedQty: Number(item.confirmedQty || 0), price: Number(item.price || 0), uom: item.uom, stockNote: item.stockNote || '' };
     })
   };
 }
@@ -1077,8 +1179,8 @@ async function approveCartFromWaitingZone() {
     showLoading(false);
   }
 }
-function updateCartQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].orderQty = Math.max(1, Number(value || 1) || 1); if (Number(cart.items[idx].checkedQty || 0) > Number(cart.items[idx].orderQty || 0)) cart.items[idx].checkedQty = cart.items[idx].orderQty; persistState(); markCartDirty(true); renderCart(); }
-function updateCartCheckedQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].checkedQty = Math.max(0, Number(value || 0) || 0); persistState(); markCartDirty(true); renderCart(); }
+function updateCartQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].orderQty = Math.max(1, Number(value || 1) || 1); persistState(); markCartDirty(true); renderCart(); }
+function updateCartCheckedQty(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].checkedQty = String(value || ''); persistState(); markCartDirty(true); renderCart(); }
 function updateCartItemRemark(idx, value) { const cart = getActiveTempCart(); if (!cart || !cart.items[idx]) return; cart.items[idx].stockNote = String(value || ''); persistState(); markCartDirty(true); }
 function removeCartItem(idx) { const cart = getActiveTempCart(); if (!cart) return; cart.items.splice(idx, 1); if (!cart.items.length) { state.tempCarts = state.tempCarts.filter(function(row) { return row.tempCartNumber !== cart.tempCartNumber; }); deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor).catch(function(error) { console.error('Unable to delete empty cart from Firebase.', error); }); markCartDirty(false); state.cartEditorOpen = false; } else { markCartDirty(true); } if (!state.tempCarts.some(function(row) { return row.tempCartNumber === state.activeTempCartNumber; })) state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : ''; persistState(); renderCart(); }
 function resetCart() { const cart = getActiveTempCart(); if (!cart) return; if (!confirm('Delete current temporary cart?')) return; state.tempCarts = state.tempCarts.filter(function(row) { return row.tempCartNumber !== cart.tempCartNumber; }); state.activeTempCartNumber = getWaitingTempCarts()[0] ? getWaitingTempCarts()[0].tempCartNumber : ''; state.currentPoHeader = null; state.cartEditorOpen = false; persistState(); markCartDirty(false); renderCart(); deleteTempCartFromFirebase(cart.tempCartNumber, cart.vendor).catch(function(error) { console.error('Unable to delete cart from Firebase.', error); }); }
