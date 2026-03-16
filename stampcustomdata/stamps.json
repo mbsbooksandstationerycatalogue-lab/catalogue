@@ -8,7 +8,7 @@
       "widthMm": 11.0,
       "heightMm": 25.0,
       "diameterMm": null,
-      "rsp": 36.7,
+      "rsp": 22.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q04 (11 X 25mm)",
       "sizeLabel": "11 x 25 mm"
     },
@@ -20,7 +20,7 @@
       "widthMm": 4.0,
       "heightMm": 60.0,
       "diameterMm": null,
-      "rsp": 36.7,
+      "rsp": 22.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q05 (04 X 60mm)",
       "sizeLabel": "04 x 60 mm"
     },
@@ -32,7 +32,7 @@
       "widthMm": 11.0,
       "heightMm": 40.0,
       "diameterMm": null,
-      "rsp": 36.7,
+      "rsp": 22.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q10 (11 X 40mm)",
       "sizeLabel": "11 x 40 mm"
     },
@@ -44,7 +44,7 @@
       "widthMm": 16.0,
       "heightMm": 48.0,
       "diameterMm": null,
-      "rsp": 43.4,
+      "rsp": 26.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q11 (16 X 48mm)",
       "sizeLabel": "16 x 48 mm"
     },
@@ -56,7 +56,7 @@
       "widthMm": 13.0,
       "heightMm": 49.0,
       "diameterMm": null,
-      "rsp": 41.7,
+      "rsp": 25.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q13 (13 X 49mm)",
       "sizeLabel": "13 x 49 mm"
     },
@@ -68,7 +68,7 @@
       "widthMm": 14.0,
       "heightMm": 60.0,
       "diameterMm": null,
-      "rsp": 41.7,
+      "rsp": 37.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q14 (14 X 60mm)",
       "sizeLabel": "14 x 60 mm"
     },
@@ -80,7 +80,7 @@
       "widthMm": 22.0,
       "heightMm": 69.0,
       "diameterMm": null,
-      "rsp": 70.0,
+      "rsp": 42.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q18 (22 X 69mm)",
       "sizeLabel": "22 x 69 mm"
     },
@@ -92,7 +92,7 @@
       "widthMm": 24.0,
       "heightMm": 49.0,
       "diameterMm": null,
-      "rsp": 70.0,
+      "rsp": 42.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q12 (24 X 49mm)",
       "sizeLabel": "24 x 49 mm"
     },
@@ -104,7 +104,7 @@
       "widthMm": 36.0,
       "heightMm": 61.0,
       "diameterMm": null,
-      "rsp": 76.7,
+      "rsp": 46.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q16 (36 X 61mm)",
       "sizeLabel": "36 x 61 mm"
     },
@@ -116,7 +116,7 @@
       "widthMm": 28.0,
       "heightMm": 78.0,
       "diameterMm": null,
-      "rsp": 76.7,
+      "rsp": 46.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q24 (28 X 78mm)",
       "sizeLabel": "28 x 78 mm"
     },
@@ -128,7 +128,7 @@
       "widthMm": 16.0,
       "heightMm": 83.0,
       "diameterMm": null,
-      "rsp": 70.0,
+      "rsp": 42.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q26 (16 X 83mm)",
       "sizeLabel": "16 x 83 mm"
     },
@@ -140,7 +140,7 @@
       "widthMm": null,
       "heightMm": null,
       "diameterMm": 14.0,
-      "rsp": 36.7,
+      "rsp": 22.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q32 (14mm diameter)",
       "sizeLabel": "14 mm diameter"
     },
@@ -152,7 +152,7 @@
       "widthMm": null,
       "heightMm": null,
       "diameterMm": 20.0,
-      "rsp": 43.4,
+      "rsp": 26.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q34 (20mm diameter)",
       "sizeLabel": "20 mm diameter"
     },
@@ -164,7 +164,7 @@
       "widthMm": null,
       "heightMm": null,
       "diameterMm": 28.0,
-      "rsp": 51.7,
+      "rsp": 31.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q38 (28mm diameter)",
       "sizeLabel": "28 mm diameter"
     },
@@ -176,7 +176,7 @@
       "widthMm": null,
       "heightMm": null,
       "diameterMm": 38.0,
-      "rsp": 76.7,
+      "rsp": 46.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q53 (38mm diameter)",
       "sizeLabel": "38 mm diameter"
     },
@@ -188,7 +188,7 @@
       "widthMm": null,
       "heightMm": null,
       "diameterMm": 45.0,
-      "rsp": 86.7,
+      "rsp": 52.0,
       "description": "Xstamper Quix Pre-Inked Stamp Q63 (45mm diameter)",
       "sizeLabel": "45 mm diameter"
     }
@@ -201,7 +201,7 @@
       "linkedModels": [
         "Q04"
       ],
-      "rsp": 13.4,
+      "rsp": 8.0,
       "description": "Xstamper Quix Rubber (Q04)"
     },
     {
@@ -211,7 +211,7 @@
       "linkedModels": [
         "Q05"
       ],
-      "rsp": 13.4,
+      "rsp": 8.0,
       "description": "Xstamper Quix Rubber (Q05)"
     },
     {
@@ -221,7 +221,7 @@
       "linkedModels": [
         "Q10"
       ],
-      "rsp": 13.4,
+      "rsp": 8.0,
       "description": "Xstamper Quix Rubber (Q10)"
     },
     {
@@ -231,7 +231,7 @@
       "linkedModels": [
         "Q11"
       ],
-      "rsp": 15.0,
+      "rsp": 9.0,
       "description": "Xstamper Quix Rubber (Q11)"
     },
     {
@@ -241,7 +241,7 @@
       "linkedModels": [
         "Q13"
       ],
-      "rsp": 15.0,
+      "rsp": 9.0,
       "description": "Xstamper Quix Rubber (Q13)"
     },
     {
@@ -251,7 +251,7 @@
       "linkedModels": [
         "Q14"
       ],
-      "rsp": 21.7,
+      "rsp": 13.0,
       "description": "Xstamper Quix Rubber (Q14)"
     },
     {
@@ -261,7 +261,7 @@
       "linkedModels": [
         "Q18"
       ],
-      "rsp": 25.0,
+      "rsp": 15.0,
       "description": "Xstamper Quix Rubber (Q18)"
     },
     {
@@ -271,7 +271,7 @@
       "linkedModels": [
         "Q12"
       ],
-      "rsp": 25.0,
+      "rsp": 15.0,
       "description": "Xstamper Quix Rubber (Q12)"
     },
     {
@@ -281,7 +281,7 @@
       "linkedModels": [
         "Q16"
       ],
-      "rsp": 26.7,
+      "rsp": 16.0,
       "description": "Xstamper Quix Rubber (Q16)"
     },
     {
@@ -291,7 +291,7 @@
       "linkedModels": [
         "Q24"
       ],
-      "rsp": 26.7,
+      "rsp": 16.0,
       "description": "Xstamper Quix Rubber (Q24)"
     },
     {
@@ -301,7 +301,7 @@
       "linkedModels": [
         "Q26"
       ],
-      "rsp": 25.0,
+      "rsp": 15.0,
       "description": "Xstamper Quix Rubber (Q26)"
     },
     {
@@ -311,7 +311,7 @@
       "linkedModels": [
         "Q32"
       ],
-      "rsp": 13.4,
+      "rsp": 8.0,
       "description": "Xstamper Quix Rubber (Q32)"
     },
     {
@@ -321,7 +321,7 @@
       "linkedModels": [
         "Q34"
       ],
-      "rsp": 15.0,
+      "rsp": 9.0,
       "description": "Xstamper Quix Rubber (Q34)"
     },
     {
@@ -331,7 +331,7 @@
       "linkedModels": [
         "Q38"
       ],
-      "rsp": 20.0,
+      "rsp": 12.0,
       "description": "Xstamper Quix Rubber (Q38)"
     },
     {
@@ -341,7 +341,7 @@
       "linkedModels": [
         "Q53"
       ],
-      "rsp": 26.7,
+      "rsp": 16.0,
       "description": "Xstamper Quix Rubber (Q53)"
     },
     {
@@ -351,7 +351,7 @@
       "linkedModels": [
         "Q63"
       ],
-      "rsp": 30.0,
+      "rsp": 18.0,
       "description": "Xstamper Quix Rubber (Q63)"
     },
     {
@@ -359,7 +359,7 @@
       "model": "10ML",
       "productGroup": "ink",
       "linkedModels": "all",
-      "rsp": 19.4,
+      "rsp": 11.6,
       "description": "QPTLR-10 Xstamper Quix Ink 10ml"
     },
     {
@@ -367,7 +367,7 @@
       "model": "20ML",
       "productGroup": "ink",
       "linkedModels": "all",
-      "rsp": 35.0,
+      "rsp": 21.0,
       "description": "QPTLR-20 Xstamper Quix Ink 20ml"
     }
   ]
